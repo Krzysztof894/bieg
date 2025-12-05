@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wielki Bieg Studenta 2025</title>
+    <style>
+        /* --- RESET I OGÓLNE STYLE --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background-color: #f4f4f4;
+        }
+
+        html {
+            scroll-behavior: smooth; /* Płynne przewijanie do sekcji */
+        }
+
+        /* --- NAWIGACJA --- */
+        header {
+            background-color: #003366; /* Granatowy studencki */
+            color: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffcc00; /* Żółty akcent */
+            text-transform: uppercase;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ffcc00;
+        }
+
+        /* --- HERO SECTION (NAGŁÓWEK) --- */
+        .hero {
+            background: linear-gradient(rgba(0,51,102,0.8), rgba(0,51,102,0.8)), url('https://images.unsplash.com/photo-1452626038306-3a2a4a57cf32?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            padding-top: 60px;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            font-size: 1.5rem;
+            margin-bottom: 30px;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #ffcc00;
+            color: #003366;
+            padding: 15px 30px;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        .btn:hover {
+            background-color: #e6b800;
+            transform: scale(1.05);
+        }
+
+        /* --- SEKCJE OGÓLNE --- */
+        section {
+            padding: 80px 0;
+        }
+
+        section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            color: #003366;
+            position: relative;
+        }
+
+        section h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background-color: #ffcc00;
+            margin: 10px auto 0;
+        }
+
+        /* --- TRASA --- */
+        .route-details {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .route-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            width: 300px;
+            text-align: center;
+        }
+
+        .map-placeholder {
+            width: 100%;
+            height: 300px;
+            background-color: #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 20px;
+            border-radius: 8px;
+            color: #666;
+        }
+
+        /* --- CENNIK --- */
+        #cennik {
+            background-color: white;
+        }
+
+        .pricing-table {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            border-collapse: collapse;
+        }
+
+        .pricing-table th, .pricing-table td {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .pricing-table th {
+            background-color: #003366;
+            color: white;
+        }
+
+        .pricing-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        /* --- NAGRODY --- */
+        .prizes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: auto;
+            padding: 0 20px;
+        }
+
+        .prize-item {
+            background: #fff;
+            padding: 30px;
+            text-align: center;
+            border-top: 5px solid #ffcc00;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .prize-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .prize-icon {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        /* --- REGULAMIN --- */
+        #regulamin {
+            background-color: #eee;
+            text-align: center;
+        }
+
+        .rules-box {
+            background: white;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+            border-radius: 8px;
+            text-align: left;
+        }
+
+        .rules-list {
+            list-style-type: decimal;
+            padding-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        .rules-list li {
+            margin-bottom: 10px;
+        }
+
+        /* --- FOOTER --- */
+        footer {
+            background-color: #222;
+            color: #aaa;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        /* RESPONSYWNOŚĆ */
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            nav ul { flex-direction: column; text-align: center; }
+            nav ul li { margin: 10px 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">Bieg Studenta</div>
+            <nav>
+                <ul>
+                    <li><a href="#home">Start</a></li>
+                    <li><a href="#trasa">Trasa</a></li>
+                    <li><a href="#cennik">Cennik</a></li>
+                    <li><a href="#nagrody">Nagrody</a></li>
+                    <li><a href="#regulamin">Regulamin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>Bieg Studenta 2025</h1>
+            <p>Zostaw sesję w tyle! Pokonaj 5 km kampusem uczelni.</p>
+            <p><strong>Data:</strong> 25 Maja 2026 | <strong>Start:</strong> 10:00</p>
+            <br>
+            <a href="#cennik" class="btn">Zapisz się teraz</a>
+        </div>
+    </section>
+
+    <section id="trasa">
+        <div class="container">
+            <h2>Trasa Biegu</h2>
+            <div class="route-details">
+                <div class="route-card">
+                    <h3>Dystans</h3>
+                    <p style="font-size: 2rem; color: #003366; font-weight: bold;">5 KM</p>
+                    <p>Idealna pętla wokół budynków rektoratu i biblioteki.</p>
+                </div>
+                <div class="route-card">
+                    <h3>Nawierzchnia</h3>
+                    <p>80% Asfalt<br>20% Ścieżki parkowe</p>
+                </div>
+                <div class="route-card">
+                    <h3>Limit czasu</h3>
+                    <p>60 minut<br>(Można maszerować!)</p>
+                </div>
+            </div>
+            <div class="map-placeholder">
+                [Tu wstaw grafikę mapy trasy]
+            </div>
+        </div>
+    </section>
+
+    <section id="cennik">
+        <div class="container">
+            <h2>Cennik Pakietów</h2>
+            <table class="pricing-table">
+                <thead>
+                    <tr>
+                        <th>Rodzaj Uczestnika</th>
+                        <th>Do 31 Marca</th>
+                        <th>Do 20 Maja</th>
+                        <th>W dniu zawodów</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Student / Doktorant</strong></td>
+                        <td>25 PLN</td>
+                        <td>35 PLN</td>
+                        <td>50 PLN</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Absolwent / Pracownik</strong></td>
+                        <td>40 PLN</td>
+                        <td>50 PLN</td>
+                        <td>70 PLN</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pozostali</strong></td>
+                        <td>50 PLN</td>
+                        <td>70 PLN</td>
+                        <td>90 PLN</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="text-align: center; margin-top: 30px;">
+                <p>W pakiecie: koszulka techniczna, numer startowy, woda i posiłek regeneracyjny.</p>
+                <br>
+                <a href="#" class="btn">Przejdź do formularza płatności</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="nagrody" style="background-color: #f9f9f9;">
+        <div class="container">
+            <h2>Nagrody</h2>
+            <p style="text-align: center; margin-bottom: 30px;">Walczymy nie tylko o zaliczenie WF-u!</p>
+            <div class="prizes-grid">
+                <div class="prize-item">
+                    <span class="prize-icon">🏆</span>
+                    <h3>Kategoria OPEN</h3>
+                    <p>Puchary Dziekana oraz bony do sklepu sportowego o wartości 500 zł.</p>
+                </div>
+                <div class="prize-item">
+                    <span class="prize-icon">🎓</span>
+                    <h3>Najszybszy Wydział</h3>
+                    <p>Puchar Przechodni Rektora i beczka piwa dla samorządu wydziału.</p>
+                </div>
+                <div class="prize-item">
+                    <span class="prize-icon">🎭</span>
+                    <h3>Najlepsze Przebranie</h3>
+                    <p>Biegniesz w pidżamie? Jako banan? Wygraj voucher na pizzę dla całej grupy!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="regulamin">
+        <div class="container">
+            <h2>Regulamin</h2>
+            <div class="rules-box">
+                <h3>Skrócone zasady uczestnictwa:</h3>
+                <ol class="rules-list">
+                    <li>Organizatorem biegu jest Samorząd Studencki oraz AZS.</li>
+                    <li>Uczestnik musi mieć ukończone 18 lat w dniu biegu.</li>
+                    <li>Studenci muszą posiadać ważną legitymację studencką do weryfikacji zniżki.</li>
+                    <li>Podczas biegu obowiązuje pomiar czasu chipowy (zwrotny na mecie).</li>
+                    <li>Każdy uczestnik biegnie na własną odpowiedzialność.</li>
+                </ol>
+                <p>Pełna treść regulaminu dostępna jest do pobrania poniżej.</p>
+                <br>
+                <a href="#" class="btn" style="background-color: #333; color: white;">Pobierz pełny regulamin (PDF)</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Bieg Studenta. Wszelkie prawa zastrzeżone.</p>
+            <p>Kontakt: kontakt@biegstudenta.pl | Tel: 123-456-789</p>
+        </div>
+    </footer>
+
+</body>
+</html>
