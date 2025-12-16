@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Zarządzania - Bieg Studenta</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="dashboard.css">
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.1/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="logo">Panel Admina</div>
+            <nav>
+                <ul>
+                    <li onclick="switchTab('overview')" class="active">Przegląd</li>
+                    <li onclick="switchTab('cennik')">Cennik</li>
+                    <li onclick="switchTab('trasa')">Trasa</li>
+                    <li onclick="switchTab('nagrody')">Nagrody</li>
+                    <li onclick="switchTab('regulamin')">Regulamin</li>
+                </ul>
+            </nav>
+            <div class="sidebar-footer">
+                <a href="index.html" class="btn-back">← Wróć na stronę</a>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-bar">
+                <h1>Zarządzanie treścią</h1>
+                <div class="actions">
+                    <button class="btn btn-danger" onclick="resetData()">Resetuj Dane</button>
+                    <label for="excelInput" class="btn btn-import">📥 Importuj XLSX</label>
+                    <input type="file" id="excelInput" accept=".xlsx, .xls" style="display: none;">
+                </div>
+            </header>
+
+            <section id="overview" class="tab-content active">
+                <div class="card">
+                    <h2>Status Danych</h2>
+                    <p>Dane są przechowywane w pamięci przeglądarki (LocalStorage).</p>
+                    <div id="last-update-info">Ostatnia aktualizacja: Brak danych</div>
+                </div>
+                <div class="card instruction-card">
+                    <h3>Instrukcja Importu</h3>
+                    <p>Aby zaktualizować dane, zaimportuj plik Excel (.xlsx) zawierający arkusze o nazwach:</p>
+                    <ul>
+                        <li><code>Cennik</code> (kolumny: Kategoria, Cena1, Cena2, Cena3)</li>
+                        <li><code>Trasa</code> (kolumny: Klucz, Wartosc)</li>
+                        <li><code>Nagrody</code> (kolumny: Tytul, Opis, Ikona)</li>
+                        <li><code>Regulamin</code> (kolumny: Zasada)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <section id="cennik" class="tab-content">
+                <h2>Aktualny Cennik</h2>
+                <table class="dashboard-table" id="cennik-table">
+                    <thead>
+                        <tr>
+                            <th>Kategoria</th>
+                            <th>Termin 1</th>
+                            <th>Termin 2</th>
+                            <th>Dzień zawodów</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </section>
+
+            <section id="trasa" class="tab-content">
+                <h2>Szczegóły Trasy</h2>
+                <div class="grid-cards" id="trasa-container"></div>
+            </section>
+
+            <section id="nagrody" class="tab-content">
+                <h2>Lista Nagród</h2>
+                <div class="grid-cards" id="nagrody-container"></div>
+            </section>
+
+            <section id="regulamin" class="tab-content">
+                <h2>Punkty Regulaminu</h2>
+                <ul class="dashboard-list" id="regulamin-list"></ul>
+            </section>
+        </main>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

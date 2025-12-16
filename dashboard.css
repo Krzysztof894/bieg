@@ -1,0 +1,162 @@
+/* dashboard.css */
+body {
+    background-color: #f0f2f5;
+    overflow: hidden; /* Ukrywamy paski przewijania body, dashboard ma własne */
+}
+
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #003366;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.sidebar .logo {
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+    color: #ffcc00;
+    font-weight: bold;
+    text-align: center;
+}
+
+.sidebar nav ul {
+    list-style: none;
+    flex-direction: column;
+    padding: 0;
+}
+
+.sidebar nav ul li {
+    padding: 15px;
+    cursor: pointer;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    transition: background 0.3s;
+    margin-left: 0;
+}
+
+.sidebar nav ul li:hover, .sidebar nav ul li.active {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: #ffcc00;
+}
+
+.sidebar-footer {
+    margin-top: auto;
+}
+
+.btn-back {
+    color: #bbb;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+/* Main Content */
+.main-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.btn-import {
+    background-color: #28a745;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    display: inline-block;
+    margin-left: 10px;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Tabs logic */
+.tab-content {
+    display: none;
+    animation: fadeIn 0.3s;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tables & Lists */
+.dashboard-table {
+    width: 100%;
+    background: white;
+    border-collapse: collapse;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.dashboard-table th, .dashboard-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+.dashboard-table th {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Cards Grid */
+.grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border-left: 4px solid #003366;
+}
+
+.instruction-card {
+    margin-top: 20px;
+    border-left-color: #ffcc00;
+}
+
+.dashboard-list {
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    list-style-position: inside;
+}
+
+.dashboard-list li {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #eee;
+}
