@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cennik - Bieg Studenta 2025</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">Bieg Studenta</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Start</a></li>
+                    <li><a href="trasa.html">Trasa</a></li>
+                    <li><a href="cennik.html" class="active">Cennik</a></li>
+                    <li><a href="nagrody.html">Nagrody</a></li>
+                    <li><a href="regulamin.html">Regulamin</a></li>
+                    <li><a href="dashboard.html" style="color: #ffcc00;">Panel</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="subpage-section">
+        <div class="container">
+            <h2 class="subpage-header" style="text-align: center; margin-bottom: 40px; color: #003366;">Cennik Pakietów</h2>
+            
+            <table class="pricing-table">
+                <thead>
+                    <tr>
+                        <th>Rodzaj Uczestnika</th>
+                        <th>Do 31 Marca</th>
+                        <th>Do 20 Maja</th>
+                        <th>W dniu zawodów</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Student / Doktorant</strong></td>
+                        <td>25 PLN</td>
+                        <td>35 PLN</td>
+                        <td>50 PLN</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Absolwent / Pracownik</strong></td>
+                        <td>40 PLN</td>
+                        <td>50 PLN</td>
+                        <td>70 PLN</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pozostali</strong></td>
+                        <td>50 PLN</td>
+                        <td>70 PLN</td>
+                        <td>90 PLN</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="text-align: center; margin-top: 40px;">
+                <p style="font-size: 1.1rem; margin-bottom: 20px;">
+                    <strong>W pakiecie otrzymujesz:</strong><br>
+                    koszulkę techniczną, numer startowy z chipem, wodę na trasie oraz posiłek regeneracyjny na mecie.
+                </p>
+                <a href="#" class="btn placeholder-link">Przejdź do płatności</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Bieg Studenta. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
