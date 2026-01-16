@@ -3,132 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nagrody - Bieg Studenta 2026</title>
+    <title>Regulamin - Bieg Studenta 2026</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* --- UKŁAD "BEZ SCROLOWANIA" (DLA KOMPUTERÓW) --- */
-        
+        /* --- UKŁAD "ONE SCREEN" (POPRAWIONY) --- */
         body {
-            height: 100vh; /* Wymuś wysokość ekranu */
-            overflow: hidden; /* Zablokuj pasek przewijania */
+            height: 100vh;
+            overflow: hidden; /* Blokada głównego scrolla */
+            background-color: #f4f7f6;
+            margin: 0; /* Reset marginesów body */
+        }
+
+        /* Główny kontener dzielący ekran */
+        .layout-container {
+            display: flex;
+            gap: 30px;
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            
+            /* --- POPRAWKA: Odsunięcie od góry (żeby header nie zasłaniał) --- */
+            margin-top: 100px; 
+            /* Obliczamy wysokość: 100vh (cały ekran) - 100px (margines) - 20px (dolny odstęp) */
+            height: calc(100vh - 120px); 
+        }
+
+        /* --- LEWA STRONA (PANEL AKCJI) --- */
+        .info-panel {
+            flex: 1; /* 33% szerokości */
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            padding: 10px;
         }
 
-        /* Header ma stałą wysokość, reszta zajmuje dół */
-        header { flex: 0 0 auto; }
+        .page-title {
+            font-size: 2.5rem;
+            color: #003366;
+            line-height: 1.2;
+            margin-bottom: 30px;
+        }
 
-        /* Główny kontener dzielący ekran na dwie części */
-        .one-screen-container {
-            flex: 1; /* Zajmij całe pozostałe miejsce */
+        /* Pigułki informacyjne */
+        .quick-info-vertical {
             display: flex;
-            padding: 20px;
-            gap: 20px;
-            height: 100%;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 30px;
         }
 
-        /* --- LEWA STRONA (PODIUM) --- */
-        .left-panel {
-            flex: 2; /* Zajmuje 66% szerokości */
+        .info-pill {
             background: white;
-            border-radius: 20px;
-            box-shadow: 0 0 20px rgba(0,0,0,0.05);
+            padding: 15px 20px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             display: flex;
-            flex-direction: column;
-            justify-content: center; /* Wyśrodkuj pionowo */
             align-items: center;
-            padding: 20px;
-            position: relative;
+            gap: 15px;
+            border-left: 5px solid #ffcc00;
+            font-weight: 600;
+            color: #333;
+            transition: transform 0.2s;
         }
+        
+        .info-pill:hover { transform: translateX(5px); }
+        .pill-icon { font-size: 1.5rem; }
 
-        .podium-wrapper {
+        /* Przycisk PDF */
+        .btn-pdf-large {
+            background: #003366;
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: bold;
             display: flex;
-            align-items: flex-end; /* Wyrównaj do dołu */
+            align-items: center;
             justify-content: center;
             gap: 15px;
-            width: 100%;
-            height: 80%; /* Ogranicz wysokość podium */
+            box-shadow: 0 10px 20px rgba(0,51,102,0.3);
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            transition: background 0.3s;
+            margin-bottom: 20px;
         }
+        .btn-pdf-large:hover { background: #002244; }
 
-        .podium-step {
-            text-align: center;
-            padding: 15px;
-            border-radius: 15px 15px 0 0;
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-            transition: transform 0.2s;
-            position: relative;
-        }
-
-        .podium-step:hover { transform: scale(1.02); }
-
-        /* Wygląd stopni */
-        .step-1 {
-            width: 35%;
-            height: 90%; /* Najwyższy */
-            background: linear-gradient(to top, #d4af37, #ffd700);
-            z-index: 2;
-        }
-        .step-2 {
-            width: 30%;
-            height: 70%;
-            background: linear-gradient(to top, #a9a9a9, #c0c0c0);
-        }
-        .step-3 {
-            width: 30%;
-            height: 55%;
-            background: linear-gradient(to top, #cd7f32, #d2691e);
-        }
-
-        .medal-icon { font-size: 3rem; margin-bottom: 10px; display: block; text-shadow: 0 2px 5px rgba(0,0,0,0.2); }
-        .reward-text { font-weight: bold; font-size: 1.2rem; margin-bottom: 5px; }
-        .reward-desc { font-size: 0.8rem; opacity: 0.9; line-height: 1.2; }
-
-        /* --- PRAWA STRONA (KATEGORIE SPECJALNE) --- */
-        .right-panel {
-            flex: 1; /* Zajmuje 33% szerokości */
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .special-box {
-            background: white;
-            border-radius: 15px;
-            padding: 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-            flex: 1; /* Rozciągnij równomiernie */
-            transition: transform 0.2s;
-        }
-        
-        .special-box:hover { transform: translateX(-5px); background: #fffcf0; }
-
-        .spec-icon { font-size: 2.5rem; background: #f0f2f5; padding: 10px; border-radius: 50%; }
-        .spec-content h4 { margin: 0; color: #003366; font-size: 1rem; }
-        .spec-content p { margin: 5px 0 0 0; font-size: 0.8rem; color: #555; }
-        .highlight { color: #d4af37; font-weight: bold; font-size: 0.75rem; display: block; margin-top: 3px;}
-
-        /* Mała stopka wewnątrz panelu */
-        .mini-footer {
-            text-align: center;
-            font-size: 0.7rem;
-            color: #888;
+        /* Stopka w lewym panelu */
+        .panel-footer {
             margin-top: auto;
+            font-size: 0.8rem;
+            color: #888;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
         }
 
-        /* --- MEDIA QUERY (DLA TELEFONÓW) --- */
-        /* Jeśli ekran jest węższy niż 900px, włączamy normalne przewijanie */
+        /* --- PRAWA STRONA (TREŚĆ - SCROLLOWALNA) --- */
+        .content-panel {
+            flex: 2; /* 66% szerokości */
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; 
+            border: 1px solid #eee;
+        }
+
+        .content-header {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            border-bottom: 1px solid #eee;
+            flex: 0 0 auto;
+        }
+
+        /* Tylko ten element ma pasek przewijania */
+        .scrollable-text {
+            padding: 40px;
+            overflow-y: auto; 
+            flex: 1; 
+        }
+
+        /* Stylizacja listy */
+        #regulamin-list {
+            counter-reset: rule-counter;
+            list-style: none;
+            padding: 0;
+        }
+
+        #regulamin-list li {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 25px;
+            line-height: 1.6;
+            color: #444;
+            border-bottom: 1px solid #f9f9f9;
+            padding-bottom: 15px;
+        }
+
+        #regulamin-list li::before {
+            counter-increment: rule-counter;
+            content: counter(rule-counter);
+            position: absolute;
+            left: 0; top: 0;
+            background: #eef2f5;
+            color: #003366;
+            width: 35px; height: 35px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 35px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* --- RWD (MOBILE) --- */
         @media (max-width: 900px) {
-            body { height: auto; overflow: auto; display: block; }
-            .one-screen-container { flex-direction: column; height: auto; }
-            .podium-wrapper { align-items: flex-end; height: auto; margin-top: 20px;}
-            .step-1, .step-2, .step-3 { height: auto; padding-bottom: 30px; }
+            body { height: auto; overflow: auto; margin-top: 80px; } /* Na telefonie odblokuj scroll */
+            .layout-container { 
+                flex-direction: column; 
+                height: auto; 
+                margin-top: 0; /* Margin handled by body padding/margin on mobile */
+                overflow: visible; 
+            }
+            .content-panel { height: auto; margin-bottom: 40px; }
+            .scrollable-text { overflow-y: visible; height: auto; }
+            .page-title { font-size: 2rem; text-align: center; margin-bottom: 20px; }
         }
     </style>
 </head>
@@ -142,80 +184,106 @@
                     <li><a href="index.html">Start</a></li>
                     <li><a href="trasa.html">Trasa</a></li>
                     <li><a href="cennik.html">Cennik</a></li>
-                    <li><a href="nagrody.html" class="active">Nagrody</a></li>
-                    <li><a href="regulamin.html">Regulamin</a></li>
+                    <li><a href="nagrody.html">Nagrody</a></li>
+                    <li><a href="regulamin.html" class="active">Regulamin</a></li>
                     <li><a href="dashboard.html" style="color: #ffcc00; font-weight: bold;">Admin</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <div class="one-screen-container">
+    <div class="layout-container">
         
-        <div class="left-panel">
-            <h2 style="position: absolute; top: 20px; color: #003366;">Główna Klasyfikacja</h2>
+        <aside class="info-panel">
+            <h1 class="page-title">Zasady<br>Uczestnictwa</h1>
             
-            <div class="podium-wrapper">
-                <div class="podium-step step-2">
-                    <span class="medal-icon">🥈</span>
-                    <div class="reward-text">II MIEJSCE</div>
-                    <div class="reward-text">500 PLN</div>
-                    <div class="reward-desc">Puchar Dziekana<br>+ Gadżety</div>
+            <div class="quick-info-vertical">
+                <div class="info-pill">
+                    <span class="pill-icon">📅</span>
+                    <div>
+                        <small style="color:#888;">Data wydarzenia</small>
+                        <div>25 Maja 2026</div>
+                    </div>
                 </div>
-
-                <div class="podium-step step-1">
-                    <span class="medal-icon">🏆</span>
-                    <div class="reward-text">ZWYCIĘZCA</div>
-                    <div class="reward-text" style="font-size: 1.5rem;">1000 PLN</div>
-                    <div class="reward-desc">Złoty Puchar Rektora<br>+ Wycieczka<br>+ Chwała na wieki</div>
+                <div class="info-pill">
+                    <span class="pill-icon">📍</span>
+                    <div>
+                        <small style="color:#888;">Miejsce startu</small>
+                        <div>Siedlce, Park "Aleksandria"</div>
+                    </div>
                 </div>
-
-                <div class="podium-step step-3">
-                    <span class="medal-icon">🥉</span>
-                    <div class="reward-text">III MIEJSCE</div>
-                    <div class="reward-text">300 PLN</div>
-                    <div class="reward-desc">Puchar Samorządu<br>+ Voucher</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="right-panel">
-            <h3 style="margin: 0 0 10px 0; color: #333; font-size: 1.2rem;">Kategorie Specjalne</h3>
-
-            <div class="special-box">
-                <div class="spec-icon">🎓</div>
-                <div class="spec-content">
-                    <h4>Najszybszy Wydział</h4>
-                    <span class="highlight">Nagroda: 50x Pizza + Beczka</span>
-                    <p>Dla wydziału z najlepszą średnią czasu TOP 10 studentów.</p>
+                <div class="info-pill">
+                    <span class="pill-icon">⏱️</span>
+                    <div>
+                        <small style="color:#888;">Limit czasu</small>
+                        <div>60 minut</div>
+                    </div>
                 </div>
             </div>
 
-            <div class="special-box">
-                <div class="spec-icon">🎭</div>
-                <div class="spec-content">
-                    <h4>Mistrz Przebrania</h4>
-                    <span class="highlight">Nagroda: Karnet OPEN + Bluza</span>
-                    <p>Dla najbardziej kreatywnego stroju (głosowanie na mecie).</p>
-                </div>
+            <button class="btn-pdf-large" onclick="generatePDF()">
+                <span style="font-size: 1.5rem;">🖨️</span>
+                <span>Pobierz / Drukuj<br>Regulamin PDF</span>
+            </button>
+
+            <div class="panel-footer">
+                <p>Masz pytania co do zasad?<br>
+                <a href="mailto:kontakt@bieg.pl" style="color: #003366; text-decoration: none; font-weight: bold;">Napisz do organizatora</a></p>
+                <br>
+                &copy; 2026 Bieg Studenta.
+            </div>
+        </aside>
+
+        <main class="content-panel">
+            <div class="content-header">
+                <h2 style="margin: 0; color: #003366; font-size: 1.2rem;">Oficjalny Regulamin Biegu</h2>
+                <span style="font-size: 0.8rem; color: #888;">Wersja 1.0 (Ostatnia aktualizacja: Styczeń 2026)</span>
             </div>
 
-            <div class="special-box">
-                <div class="spec-icon">🐢</div>
-                <div class="spec-content">
-                    <h4>Czerwona Latarnia</h4>
-                    <span class="highlight">Nagroda: Zestaw Kawowy</span>
-                    <p>Dla ostatniego zawodnika, który walczył do końca!</p>
-                </div>
-            </div>
+            <div class="scrollable-text">
+                <h3 style="margin-bottom: 20px; color: #333;">§1. Postanowienia Ogólne</h3>
+                
+                <ol id="regulamin-list">
+                    <li>Bieg "Wielki Bieg Studenta" jest organizowany przez Samorząd Studencki.</li>
+                    <li>Celem imprezy jest popularyzacja biegania oraz integracja środowiska akademickiego.</li>
+                    <li>Biuro zawodów znajduje się w budynku Rektoratu (ul. Konarskiego 2).</li>
+                    <li>Uczestnik startuje na własną odpowiedzialność, będąc świadomym swojego stanu zdrowia.</li>
+                    <li>Podczas biegu wszyscy uczestnicy muszą posiadać numery startowe przypięte z przodu koszulki.</li>
+                    <li>Zabrania się poruszania po trasie na rowerach, rolkach, deskorolkach oraz ze zwierzętami.</li>
+                    <li>Organizator zapewnia depozyt, przebieralnie oraz toalety w strefie Start/Meta.</li>
+                    <li>Pomiar czasu odbywa się elektronicznie za pomocą chipów.</li>
+                    <li>Klasyfikacja odbywa się w kategoriach Open Kobiet i Mężczyzn oraz kategoriach specjalnych.</li>
+                    <li>Nieprzestrzeganie regulaminu lub poleceń służb porządkowych grozi dyskwalifikacją.</li>
+                    <li>Wiążąca i ostateczna interpretacja niniejszego regulaminu przysługuje wyłącznie Organizatorowi.</li>
+                </ol>
 
-            <div class="mini-footer">
-                &copy; 2026 Bieg Studenta. Prawa zastrzeżone.
+                <p style="margin-top: 30px; text-align: center; color: #aaa; font-style: italic;">--- Koniec dokumentu ---</p>
             </div>
-        </div>
+        </main>
 
     </div>
 
     <script src="script.js"></script>
+
+    <script>
+        function generatePDF() {
+            const rulesContent = document.getElementById('regulamin-list').innerHTML;
+            const printWindow = window.open('', '', 'height=600,width=800');
+
+            printWindow.document.write('<html><head><title>Regulamin - Bieg 2026</title>');
+            printWindow.document.write('<style>body{font-family:sans-serif;padding:40px;color:#333}h1{text-align:center;color:#003366;border-bottom:2px solid #003366;padding-bottom:10px}ol{line-height:1.6;margin-top:20px}li{margin-bottom:10px}</style>');
+            printWindow.document.write('</head><body>');
+            printWindow.document.write('<h1>REGULAMIN BIEGU STUDENTA 2026</h1>');
+            printWindow.document.write('<p style="text-align:center;color:#666">Siedlce, Park "Aleksandria"</p>');
+            printWindow.document.write('<h3>Treść zasad:</h3>');
+            printWindow.document.write('<ol>' + rulesContent + '</ol>');
+            printWindow.document.write('<div style="margin-top:50px;text-align:center;font-size:0.8rem;border-top:1px solid #ccc;padding-top:10px">Wygenerowano ze strony www.bieg-studenta.pl</div>');
+            printWindow.document.write('</body></html>');
+
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => { printWindow.print(); printWindow.close(); }, 500);
+        }
+    </script>
 </body>
 </html>
