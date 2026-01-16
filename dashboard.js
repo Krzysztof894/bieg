@@ -1,190 +1,93 @@
-// Klucz pod którym dane będą w LocalStorage
-const STORAGE_KEY = 'biegStudentaData';
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Administratora - Bieg 2026</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Proste style tylko dla panelu admina */
+        .admin-layout { display: flex; min-height: 80vh; margin-top: 20px; }
+        .sidebar { width: 250px; background: #003366; color: white; padding: 20px; border-radius: 0 10px 10px 0; }
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar li { padding: 15px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .sidebar li:hover, .sidebar li.active { background: #004080; font-weight: bold; color: #ffcc00; }
+        .content-area { flex: 1; padding: 30px; background: white; margin-left: 20px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
+        .btn-save { background: #28a745; color: white; padding: 10px 20px; border: none; cursor: pointer; margin-top: 10px; }
+        .btn-reset { background: #dc3545; color: white; padding: 10px 20px; border: none; cursor: pointer; margin-top: 10px; margin-left: 10px; }
+    </style>
+</head>
+<body>
 
-// Dane domyślne (sample), jeśli LocalStorage jest pusty
-const defaultData = {
-    lastUpdated: new Date().toLocaleString(),
-    cennik: [
-        { kategoria: "Student / Doktorant", cena1: "25 PLN", cena2: "35 PLN", cena3: "50 PLN" },
-        { kategoria: "Absolwent / Pracownik", cena1: "40 PLN", cena2: "50 PLN", cena3: "70 PLN" },
-        { kategoria: "Pozostali", cena1: "50 PLN", cena2: "70 PLN", cena3: "90 PLN" }
-    ],
-    trasa: [
-        { klucz: "Dystans", wartosc: "5 KM" },
-        { klucz: "Nawierzchnia", wartosc: "80% Asfalt, 20% Park" },
-        { klucz: "Limit czasu", wartosc: "60 minut" }
-    ],
-    nagrody: [
-        { tytul: "Kategoria OPEN", opis: "Puchary Dziekana i bony 500 zł", ikona: "🏆" },
-        { tytul: "Najszybszy Wydział", opis: "Puchar Rektora i beczka piwa", ikona: "🎓" },
-        { tytul: "Najlepsze Przebranie", opis: "Voucher na pizzę dla grupy", ikona: "🎭" }
-    ],
-    regulamin: [
-        { zasada: "Organizatorem jest Samorząd i AZS." },
-        { zasada: "Wiek uczestnika 18+." },
-        { zasada: "Wymagana legitymacja studencka do zniżek." },
-        { zasada: "Pomiar czasu chipowy." },
-        { zasada: "Bieg na własną odpowiedzialność." }
-    ]
-};
+    <header>
+        <div class="container">
+            <div class="logo">Panel Admina</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Start</a></li>
+                    <li><a href="trasa.html">Trasa</a></li>
+                    <li><a href="cennik.html">Cennik</a></li>
+                    <li><a href="nagrody.html">Nagrody</a></li>
+                    <li><a href="regulamin.html">Regulamin</a></li>
+                    <li><a href="dashboard.html" class="active" style="color: #ffcc00; font-weight: bold;">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
 
-// --- Inicjalizacja ---
-document.addEventListener('DOMContentLoaded', () => {
-    loadData();
-    setupEventListeners();
-});
+    <div class="container admin-layout">
+        <aside class="sidebar">
+            <ul>
+                <li onclick="switchTab('tab-cennik')" class="active">💰 Edytuj Cennik</li>
+                <li onclick="switchTab('tab-trasa')">🗺️ Edytuj Trasę</li>
+                <li onclick="switchTab('tab-nagrody')">🏆 Edytuj Nagrody</li>
+                <li onclick="switchTab('tab-regulamin')">📜 Edytuj Regulamin</li>
+            </ul>
+        </aside>
 
-function setupEventListeners() {
-    // Obsługa inputu pliku
-    document.getElementById('excelInput').addEventListener('change', handleExcelUpload);
-}
+        <main class="content-area">
+            <h2 style="border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">Zarządzanie treścią</h2>
 
-// --- Zarządzanie Danymi ---
-
-function loadData() {
-    const stored = localStorage.getItem(STORAGE_KEY);
-    let data;
-
-    if (stored) {
-        data = JSON.parse(stored);
-        console.log("Załadowano dane z LocalStorage");
-    } else {
-        data = defaultData;
-        console.log("Załadowano dane domyślne");
-    }
-
-    renderDashboard(data);
-}
-
-function saveData(data) {
-    // Aktualizujemy datę
-    data.lastUpdated = new Date().toLocaleString();
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-    renderDashboard(data);
-    alert('Dane zostały pomyślnie zaktualizowane!');
-}
-
-function resetData() {
-    if(confirm("Czy na pewno chcesz przywrócić dane domyślne?")) {
-        localStorage.removeItem(STORAGE_KEY);
-        loadData();
-    }
-}
-
-// --- Import Excela (SheetJS) ---
-
-function handleExcelUpload(e) {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-
-    reader.onload = (e) => {
-        const data = new Uint8Array(e.target.result);
-        const workbook = XLSX.read(data, { type: 'array' });
-
-        // Struktura nowych danych
-        const newData = { ...defaultData }; // Kopiujemy strukturę
-
-        // Parsowanie arkuszy (zakładamy, że nazwy arkuszy w Excelu to: Cennik, Trasa, Nagrody, Regulamin)
-        
-        if (workbook.Sheets["Cennik"]) {
-            newData.cennik = XLSX.utils.sheet_to_json(workbook.Sheets["Cennik"]);
-        }
-        if (workbook.Sheets["Trasa"]) {
-            newData.trasa = XLSX.utils.sheet_to_json(workbook.Sheets["Trasa"]);
-        }
-        if (workbook.Sheets["Nagrody"]) {
-            newData.nagrody = XLSX.utils.sheet_to_json(workbook.Sheets["Nagrody"]);
-        }
-        if (workbook.Sheets["Regulamin"]) {
-            newData.regulamin = XLSX.utils.sheet_to_json(workbook.Sheets["Regulamin"]);
-        }
-
-        saveData(newData);
-    };
-
-    reader.readAsArrayBuffer(file);
-}
-
-// --- Renderowanie ---
-
-function renderDashboard(data) {
-    // Status
-    document.getElementById('last-update-info').textContent = `Ostatnia aktualizacja: ${data.lastUpdated}`;
-
-    // Cennik
-    const cennikTbody = document.querySelector('#cennik-table tbody');
-    cennikTbody.innerHTML = '';
-    data.cennik.forEach(row => {
-        // Obsługa różnych nazw kolumn z Excela (zabezpieczenie)
-        const kat = row.Kategoria || row.kategoria;
-        const c1 = row.Cena1 || row.cena1 || row['Do 31 Marca'];
-        const c2 = row.Cena2 || row.cena2 || row['Do 20 Maja'];
-        const c3 = row.Cena3 || row.cena3 || row['W dniu zawodów'];
-
-        const tr = `<tr>
-            <td><strong>${kat}</strong></td>
-            <td>${c1}</td>
-            <td>${c2}</td>
-            <td>${c3}</td>
-        </tr>`;
-        cennikTbody.innerHTML += tr;
-    });
-
-    // Trasa
-    const trasaContainer = document.getElementById('trasa-container');
-    trasaContainer.innerHTML = '';
-    data.trasa.forEach(item => {
-        const key = item.Klucz || item.klucz;
-        const val = item.Wartosc || item.wartosc;
-        
-        trasaContainer.innerHTML += `
-            <div class="card">
-                <h3>${key}</h3>
-                <p style="font-size: 1.2rem; color: #003366;">${val}</p>
+            <div id="tab-cennik" class="tab-content active">
+                <h3>Edycja Cennika</h3>
+                <form id="cennik-form">
+                    </form>
+                <button class="btn-save" onclick="saveCennik()">Zapisz Cennik</button>
             </div>
-        `;
-    });
 
-    // Nagrody
-    const nagrodyContainer = document.getElementById('nagrody-container');
-    nagrodyContainer.innerHTML = '';
-    data.nagrody.forEach(item => {
-        const title = item.Tytul || item.tytul;
-        const desc = item.Opis || item.opis;
-        const icon = item.Ikona || item.ikona || '🎁';
-
-        nagrodyContainer.innerHTML += `
-            <div class="card" style="text-align: center;">
-                <div style="font-size: 3rem;">${icon}</div>
-                <h3>${title}</h3>
-                <p>${desc}</p>
+            <div id="tab-trasa" class="tab-content">
+                <h3>Edycja Trasy</h3>
+                <form id="trasa-form">
+                    </form>
+                <button class="btn-save" onclick="saveTrasa()">Zapisz Trasę</button>
             </div>
-        `;
-    });
 
-    // Regulamin
-    const regulaminList = document.getElementById('regulamin-list');
-    regulaminList.innerHTML = '';
-    data.regulamin.forEach(item => {
-        const rule = item.Zasada || item.zasada;
-        regulaminList.innerHTML += `<li>${rule}</li>`;
-    });
-}
+            <div id="tab-nagrody" class="tab-content">
+                <h3>Edycja Nagród</h3>
+                <form id="nagrody-form">
+                     </form>
+                <button class="btn-save" onclick="saveNagrody()">Zapisz Nagrody</button>
+            </div>
 
-// --- Nawigacja w Dashboardzie ---
+            <div id="tab-regulamin" class="tab-content">
+                <h3>Edycja Regulaminu</h3>
+                <form id="regulamin-form">
+                     </form>
+                <button class="btn-save" onclick="saveRegulamin()">Zapisz Regulamin</button>
+            </div>
 
-window.switchTab = function(tabId) {
-    // Ukryj wszystkie
-    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-    document.querySelectorAll('.sidebar li').forEach(el => el.classList.remove('active'));
+            <div style="margin-top: 30px; border-top: 1px solid #ccc; padding-top: 20px;">
+                <button class="btn-reset" onclick="resetToDefaults()">⚠ Przywróć domyślne</button>
+                <p style="font-size: 0.8rem; color: #666; margin-top: 5px;">Usuwa wszystkie zmiany i przywraca stan początkowy.</p>
+            </div>
+        </main>
+    </div>
 
-    // Pokaż wybrany
-    document.getElementById(tabId).classList.add('active');
-    
-    // Ustaw aktywny link w menu
-    // (szukamy po onclicku - proste rozwiązanie)
-    const activeLink = Array.from(document.querySelectorAll('.sidebar li')).find(li => li.getAttribute('onclick').includes(tabId));
-    if(activeLink) activeLink.classList.add('active');
-};
+    <script src="dashboard.js"></script>
+</body>
+</html>
