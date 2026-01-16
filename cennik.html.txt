@@ -71,10 +71,11 @@
 
     <footer>
         <div class="container">
-            <p>&copy; 2025 Bieg Studenta. Wszelkie prawa zastrzeżone.</p>
+            <p>&copy; 2026 Bieg Studenta. Wszelkie prawa zastrzeżone.</p>
         </div>
     </footer>
 
     <script src="script.js"></script>
 </body>
+
 </html>
