@@ -6,121 +6,153 @@
     <title>Cennik - Bieg Studenta 2026</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* --- NOWE STYLE DLA KART CENOWYCH --- */
-        
-        .pricing-container {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            flex-wrap: wrap; /* Żeby na telefonie spadały pod siebie */
-            margin-top: 40px;
-        }
-
-        .pricing-card {
-            background: white;
-            border-radius: 20px;
-            width: 300px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            border: 1px solid #eee;
+        /* --- UKŁAD BEZ SCROLLOWANIA (DLA PC) --- */
+        body {
+            height: 100vh;
+            overflow: hidden; /* Blokada paska przewijania */
             display: flex;
             flex-direction: column;
         }
 
-        .pricing-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-        }
+        /* Header (Nawigacja) - stała wysokość */
+        header { flex: 0 0 auto; z-index: 10; }
 
-        /* Wyróżniona karta Studenta */
-        .card-highlighted {
-            border: 2px solid #ffcc00;
-            transform: scale(1.05); /* Lekko powiększona */
-            z-index: 2;
-        }
-        
-        /* Etykieta "Polecane" */
-        .best-value-badge {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #ffcc00;
-            color: #003366;
-            padding: 5px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-        }
-
-        .pricing-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .pricing-title {
-            color: #003366;
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            font-weight: 800;
-        }
-
-        /* Lista cen */
-        .price-list {
-            list-style: none;
-            padding: 0;
-            margin: 0 0 30px 0;
-            text-align: left;
-            flex-grow: 1; /* Rozciąga listę, żeby przycisk był na dole */
-        }
-
-        .price-list li {
+        /* Główny kontener dzielący ekran */
+        .no-scroll-container {
+            flex: 1; /* Zajmuje resztę wysokości */
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0;
-            border-bottom: 1px solid #f0f0f0;
-            color: #555;
+            padding: 20px;
+            gap: 20px;
+            overflow: hidden;
         }
 
-        .price-list li:last-child {
-            border-bottom: none;
-            font-weight: bold;
-            color: #d9534f; /* Kolor dla ceny "W dniu zawodów" */
+        /* --- LEWA STRONA (KARTY CENOWE) --- */
+        .pricing-section {
+            flex: 7; /* 70% szerokości */
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Wyśrodkuj pionowo */
         }
 
-        .price-tag {
-            font-weight: bold;
-            color: #003366;
-            font-size: 1.1rem;
-        }
-
-        /* Sekcja pakietu (co zawiera) */
-        .package-info {
-            background: #f9fbfc;
-            padding: 40px 20px;
-            margin-top: 60px;
-            border-radius: 15px;
+        .section-title {
             text-align: center;
+            color: #003366;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
         }
 
-        .package-icons {
+        .cards-wrapper {
             display: flex;
             justify-content: center;
-            gap: 40px;
-            margin-top: 30px;
-            flex-wrap: wrap;
+            align-items: stretch; /* Równa wysokość kart */
+            gap: 15px;
+            height: 75%; /* Ogranicz wysokość kart */
         }
 
-        .pkg-item { text-align: center; }
-        .pkg-item span { font-size: 2.5rem; display: block; margin-bottom: 10px; }
-        .pkg-item p { font-size: 0.9rem; font-weight: bold; color: #555; }
+        /* Styl samej karty */
+        .pricing-card {
+            background: white;
+            border-radius: 15px;
+            flex: 1; /* Równy podział szerokości */
+            max-width: 300px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            border: 1px solid #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            transition: transform 0.2s;
+        }
 
+        .pricing-card:hover { transform: translateY(-5px); border-color: #ffcc00; }
+
+        /* Wyróżniona karta */
+        .card-highlight {
+            border: 2px solid #ffcc00;
+            background: #fffdf5;
+            transform: scale(1.03);
+            z-index: 2;
+        }
+
+        .badge {
+            background: #ffcc00; color: #003366;
+            padding: 4px 12px; border-radius: 12px;
+            font-size: 0.7rem; font-weight: bold;
+            text-transform: uppercase;
+            position: absolute; top: -10px; left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .icon-top { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+        .card-title { color: #003366; font-size: 1.1rem; margin-bottom: 15px; font-weight: 800; height: 3rem; display: flex; align-items: center; justify-content: center;}
+
+        /* Lista cen w karcie */
+        .prices {
+            list-style: none; padding: 0; margin: 0;
+            flex-grow: 1; /* Wypycha przycisk na dół */
+            display: flex; flex-direction: column; justify-content: center;
+        }
+
+        .prices li {
+            display: flex; justify-content: space-between;
+            padding: 8px 0; border-bottom: 1px dashed #eee;
+            font-size: 0.9rem; color: #555;
+        }
+        .prices li:last-child { border: none; font-weight: bold; color: #d9534f; }
+        .price-val { font-weight: bold; color: #003366; }
+
+        .btn-card {
+            margin-top: 15px; padding: 10px;
+            border-radius: 8px; text-decoration: none;
+            font-weight: bold; font-size: 0.9rem; display: block;
+        }
+        .btn-outline { border: 1px solid #003366; color: #003366; }
+        .btn-fill { background: #ffcc00; color: #003366; }
+
+        /* --- PRAWA STRONA (PAKIET + STOPKA) --- */
+        .info-sidebar {
+            flex: 3; /* 30% szerokości */
+            background: #003366;
+            color: white;
+            border-radius: 20px;
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .info-sidebar h3 { color: #ffcc00; margin-bottom: 20px; font-size: 1.2rem; text-align: center; }
+
+        .package-list {
+            flex-grow: 1; /* Zajmuje środek */
+            display: flex; flex-direction: column; gap: 15px;
+            overflow-y: auto; /* Zabezpieczenie na małe ekrany */
+        }
+
+        .pkg-item {
+            display: flex; align-items: center; gap: 15px;
+            background: rgba(255,255,255,0.1);
+            padding: 10px 15px; border-radius: 10px;
+        }
+        .pkg-icon { font-size: 1.5rem; }
+        .pkg-text { font-size: 0.9rem; font-weight: 600; }
+
+        .sidebar-footer {
+            margin-top: 20px; text-align: center;
+            font-size: 0.75rem; color: rgba(255,255,255,0.6);
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 10px;
+        }
+
+        /* --- RWD (MOBILE) --- */
+        @media (max-width: 900px) {
+            body { height: auto; overflow: auto; display: block; }
+            .no-scroll-container { flex-direction: column; height: auto; padding-bottom: 50px;}
+            .cards-wrapper { flex-direction: column; height: auto; }
+            .pricing-card { max-width: 100%; margin-bottom: 20px; }
+            .info-sidebar { border-radius: 10px; }
+        }
     </style>
 </head>
 <body>
@@ -132,7 +164,8 @@
                 <ul>
                     <li><a href="index.html">Start</a></li>
                     <li><a href="trasa.html">Trasa</a></li>
-                    <li><a href="cennik.html" class="active">Cennik</a></li> <li><a href="nagrody.html">Nagrody</a></li>
+                    <li><a href="cennik.html" class="active">Cennik</a></li>
+                    <li><a href="nagrody.html">Nagrody</a></li>
                     <li><a href="regulamin.html">Regulamin</a></li>
                     <li><a href="dashboard.html" style="color: #ffcc00; font-weight: bold;">Admin</a></li>
                 </ul>
@@ -140,114 +173,82 @@
         </div>
     </header>
 
-    <section class="subpage-section" style="padding-top: 120px;">
-        <div class="container">
-            <div style="text-align: center; margin-bottom: 50px;">
-                <h2 style="color: #003366; margin-bottom: 10px;">Wybierz swój Pakiet</h2>
-                <p style="color: #666;">Cena wpisowego zależy od terminu wpłaty. Im szybciej, tym taniej!</p>
-            </div>
+    <div class="no-scroll-container">
+        
+        <div class="pricing-section">
+            <h2 class="section-title">Wybierz swój Pakiet Startowy</h2>
             
-            <div class="pricing-container">
-
+            <div class="cards-wrapper">
                 <div class="pricing-card">
-                    <span class="pricing-icon">💼</span>
-                    <h3 class="pricing-title">Absolwent /<br>Pracownik</h3>
-                    <ul class="price-list">
-                        <li>
-                            <span>Do 31 Marca</span>
-                            <span class="price-tag">40 PLN</span>
-                        </li>
-                        <li>
-                            <span>Do 20 Maja</span>
-                            <span class="price-tag">50 PLN</span>
-                        </li>
-                        <li>
-                            <span>W dniu biegu</span>
-                            <span class="price-tag">70 PLN</span>
-                        </li>
+                    <span class="icon-top">💼</span>
+                    <div class="card-title">Absolwent /<br>Pracownik</div>
+                    <ul class="prices">
+                        <li>Do 31 Marca <span class="price-val">40 PLN</span></li>
+                        <li>Do 20 Maja <span class="price-val">50 PLN</span></li>
+                        <li>W dniu biegu <span class="price-val">70 PLN</span></li>
                     </ul>
-                    <a href="#" class="btn" style="background: white; border: 2px solid #003366; color: #003366;">Zapisz się</a>
+                    <a href="#" class="btn-card btn-outline">Wybieram</a>
                 </div>
 
-                <div class="pricing-card card-highlighted">
-                    <div class="best-value-badge">Najlepsza Cena</div>
-                    <span class="pricing-icon">🎓</span>
-                    <h3 class="pricing-title">Student /<br>Doktorant</h3>
-                    <ul class="price-list">
-                        <li>
-                            <span>Do 31 Marca</span>
-                            <span class="price-tag" style="font-size: 1.4rem; color: #28a745;">25 PLN</span>
-                        </li>
-                        <li>
-                            <span>Do 20 Maja</span>
-                            <span class="price-tag">35 PLN</span>
-                        </li>
-                        <li>
-                            <span>W dniu biegu</span>
-                            <span class="price-tag">50 PLN</span>
-                        </li>
+                <div class="pricing-card card-highlight">
+                    <div class="badge">Najczęściej wybierany</div>
+                    <span class="icon-top">🎓</span>
+                    <div class="card-title">Student /<br>Doktorant</div>
+                    <ul class="prices">
+                        <li>Do 31 Marca <span class="price-val" style="color:#28a745; font-size:1.2rem;">25 PLN</span></li>
+                        <li>Do 20 Maja <span class="price-val">35 PLN</span></li>
+                        <li>W dniu biegu <span class="price-val">50 PLN</span></li>
                     </ul>
-                    <a href="#" class="btn" style="width: 100%;">Zapisz się</a>
+                    <a href="#" class="btn-card btn-fill">ZAPISZ SIĘ</a>
                 </div>
 
                 <div class="pricing-card">
-                    <span class="pricing-icon">🏃</span>
-                    <h3 class="pricing-title">Pozostali<br>Uczestnicy</h3>
-                    <ul class="price-list">
-                        <li>
-                            <span>Do 31 Marca</span>
-                            <span class="price-tag">50 PLN</span>
-                        </li>
-                        <li>
-                            <span>Do 20 Maja</span>
-                            <span class="price-tag">70 PLN</span>
-                        </li>
-                        <li>
-                            <span>W dniu biegu</span>
-                            <span class="price-tag">90 PLN</span>
-                        </li>
+                    <span class="icon-top">🏃</span>
+                    <div class="card-title">Pozostali<br>Uczestnicy</div>
+                    <ul class="prices">
+                        <li>Do 31 Marca <span class="price-val">50 PLN</span></li>
+                        <li>Do 20 Maja <span class="price-val">70 PLN</span></li>
+                        <li>W dniu biegu <span class="price-val">90 PLN</span></li>
                     </ul>
-                    <a href="#" class="btn" style="background: white; border: 2px solid #003366; color: #003366;">Zapisz się</a>
-                </div>
-
-            </div>
-
-            <div class="package-info">
-                <h3 style="color: #003366;">Co zawiera pakiet startowy?</h3>
-                <div class="package-icons">
-                    <div class="pkg-item">
-                        <span>🎽</span>
-                        <p>Techniczna<br>Koszulka</p>
-                    </div>
-                    <div class="pkg-item">
-                        <span>🏷️</span>
-                        <p>Numer<br>z Chipem</p>
-                    </div>
-                    <div class="pkg-item">
-                        <span>💧</span>
-                        <p>Woda<br>na trasie</p>
-                    </div>
-                    <div class="pkg-item">
-                        <span>🍌</span>
-                        <p>Posiłek<br>Regeneracyjny</p>
-                    </div>
-                    <div class="pkg-item">
-                        <span>🏅</span>
-                        <p>Pamiątkowy<br>Medal</p>
-                    </div>
+                    <a href="#" class="btn-card btn-outline">Wybieram</a>
                 </div>
             </div>
-
         </div>
-    </section>
 
-    <footer style="background-color: #333; color: white; padding: 40px 0; text-align: center; margin-top: 50px;">
-        <div class="container">
-            <p>📞 <a href="tel:123456789" style="color: white;">123 456 789</a> | 📧 <a href="mailto:kontakt@bieg.pl" style="color: white;">kontakt@bieg.pl</a></p>
-            <hr style="border-color: #555; width: 50%; margin: 20px auto;">
-            <p>&copy; 2026 Bieg Studenta. Wszelkie prawa zastrzeżone.</p>
+        <div class="info-sidebar">
+            <h3>Co zawiera pakiet?</h3>
+            
+            <div class="package-list">
+                <div class="pkg-item">
+                    <span class="pkg-icon">🎽</span>
+                    <span class="pkg-text">Techniczna koszulka biegowa z logo uczelni</span>
+                </div>
+                <div class="pkg-item">
+                    <span class="pkg-icon">🏷️</span>
+                    <span class="pkg-text">Imienny numer startowy z chipem do pomiaru</span>
+                </div>
+                <div class="pkg-item">
+                    <span class="pkg-icon">🏅</span>
+                    <span class="pkg-text">Unikalny medal pamiątkowy na mecie</span>
+                </div>
+                <div class="pkg-item">
+                    <span class="pkg-icon">💧</span>
+                    <span class="pkg-text">Punkty nawadniania (woda/izotonik)</span>
+                </div>
+                <div class="pkg-item">
+                    <span class="pkg-icon">🍌</span>
+                    <span class="pkg-text">Posiłek regeneracyjny (banan, baton, zupa)</span>
+                </div>
+            </div>
+
+            <div class="sidebar-footer">
+                <p>📞 123 456 789 | 📧 kontakt@bieg.pl</p>
+                <p style="margin-top:5px;">&copy; 2026 Bieg Studenta.</p>
+            </div>
         </div>
-    </footer>
 
-    </body>
+    </div>
+
+    <script src="script.js"></script>
+</body>
 </html>
