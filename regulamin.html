@@ -6,125 +6,165 @@
     <title>Regulamin - Bieg Studenta 2026</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* --- STYLE DLA REGULAMINU --- */
-
-        /* Sekcja "Szybkie Info" - pigułki na górze */
-        .quick-info {
+        /* --- UKŁAD "ONE SCREEN" (BEZ SCROLLOWANIA STRONY) --- */
+        body {
+            height: 100vh;
+            overflow: hidden; /* Blokada głównego paska przewijania */
             display: flex;
+            flex-direction: column;
+            background-color: #f4f7f6;
+        }
+
+        header { flex: 0 0 auto; z-index: 10; }
+
+        /* Główny kontener dzielący ekran */
+        .layout-container {
+            flex: 1; /* Zajmuje resztę wysokości */
+            display: flex;
+            padding: 20px;
+            gap: 30px;
+            overflow: hidden;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* --- LEWA STRONA (PANEL AKCJI) --- */
+        .info-panel {
+            flex: 1; /* 33% szerokości */
+            display: flex;
+            flex-direction: column;
             justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            padding: 20px;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            color: #003366;
+            line-height: 1.2;
+            margin-bottom: 30px;
+        }
+
+        /* Pigułki informacyjne (Pionowo) */
+        .quick-info-vertical {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
             margin-bottom: 40px;
         }
 
         .info-pill {
             background: white;
-            padding: 15px 25px;
-            border-radius: 50px;
+            padding: 15px 20px;
+            border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.05);
             display: flex;
             align-items: center;
-            gap: 10px;
-            border: 1px solid #eee;
-            color: #003366;
-            font-weight: bold;
+            gap: 15px;
+            border-left: 5px solid #ffcc00; /* Akcent */
+            font-weight: 600;
+            color: #333;
+            transition: transform 0.2s;
         }
+        
+        .info-pill:hover { transform: translateX(5px); }
+        .pill-icon { font-size: 1.5rem; }
 
-        .info-pill span { font-size: 1.2rem; }
-
-        /* Kontener Regulaminu */
-        .rules-container {
-            background: white;
-            max-width: 900px;
-            margin: 0 auto;
+        /* Przycisk PDF */
+        .btn-pdf-large {
+            background: #003366;
+            color: white;
+            padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            overflow: hidden;
-            border-top: 5px solid #003366;
-        }
-
-        .rules-header {
-            background: #f8f9fa;
-            padding: 30px;
-            border-bottom: 1px solid #eee;
             text-align: center;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            box-shadow: 0 10px 20px rgba(0,51,102,0.3);
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+            transition: background 0.3s;
+        }
+        .btn-pdf-large:hover { background: #002244; }
+
+        /* Stopka w lewym panelu */
+        .panel-footer {
+            margin-top: auto;
+            font-size: 0.8rem;
+            color: #888;
+            border-top: 1px solid #ddd;
+            padding-top: 15px;
         }
 
-        .rules-header h2 { margin: 0; color: #003366; }
-        .rules-header p { color: #666; margin-top: 5px; font-size: 0.9rem; }
+        /* --- PRAWA STRONA (TREŚĆ REGULAMINU - SCROLLOWALNA) --- */
+        .content-panel {
+            flex: 2; /* 66% szerokości */
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden; /* Ważne dla border-radius */
+            border: 1px solid #eee;
+        }
 
-        /* Lista zasad */
-        .rules-content {
+        .content-header {
+            background: #f8f9fa;
+            padding: 20px 30px;
+            border-bottom: 1px solid #eee;
+            flex: 0 0 auto; /* Nie zmniejsza się */
+        }
+
+        /* Obszar scrollowania */
+        .scrollable-text {
             padding: 40px;
+            overflow-y: auto; /* Scroll tylko tutaj! */
+            flex: 1; /* Zajmuje resztę miejsca */
         }
 
-        /* Stylizacja listy numerowanej (z Admina) */
+        /* Stylizacja listy (identyczna jak wcześniej) */
         #regulamin-list {
             counter-reset: rule-counter;
-            list-style: none; /* Ukrywamy domyślne cyferki */
+            list-style: none;
             padding: 0;
         }
 
         #regulamin-list li {
             position: relative;
             padding-left: 50px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             line-height: 1.6;
             color: #444;
-            border-bottom: 1px solid #f0f0f0;
-            padding-bottom: 20px;
+            border-bottom: 1px solid #f9f9f9;
+            padding-bottom: 15px;
         }
 
-        /* Własne numerowanie */
         #regulamin-list li::before {
             counter-increment: rule-counter;
             content: counter(rule-counter);
             position: absolute;
-            left: 0;
-            top: 0;
-            background: #ffcc00;
+            left: 0; top: 0;
+            background: #eef2f5;
             color: #003366;
-            width: 30px;
-            height: 30px;
+            width: 35px; height: 35px;
             border-radius: 50%;
             text-align: center;
-            line-height: 30px;
+            line-height: 35px;
             font-weight: bold;
             font-size: 0.9rem;
         }
 
-        /* Przycisk PDF */
-        .pdf-section {
-            background: #003366;
-            color: white;
-            padding: 30px;
-            text-align: center;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .btn-pdf {
-            background: #ffcc00;
-            color: #003366;
-            padding: 12px 25px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            border: none;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .btn-pdf:hover { background: #e6b800; }
-
-        @media(max-width: 600px) {
-            .pdf-section { flex-direction: column; text-align: center; }
+        /* --- RWD (MOBILE) --- */
+        @media (max-width: 900px) {
+            body { height: auto; overflow: auto; display: block; }
+            .layout-container { flex-direction: column; height: auto; overflow: visible; }
+            .content-panel { height: auto; margin-bottom: 40px; }
+            .scrollable-text { overflow-y: visible; height: auto; }
+            .page-title { font-size: 2rem; text-align: center; margin-bottom: 20px; }
         }
     </style>
 </head>
@@ -139,110 +179,104 @@
                     <li><a href="trasa.html">Trasa</a></li>
                     <li><a href="cennik.html">Cennik</a></li>
                     <li><a href="nagrody.html">Nagrody</a></li>
-                    <li><a href="regulamin.html" class="active">Regulamin</a></li> <li><a href="dashboard.html" style="color: #ffcc00; font-weight: bold;">Admin</a></li>
+                    <li><a href="regulamin.html" class="active">Regulamin</a></li>
+                    <li><a href="dashboard.html" style="color: #ffcc00; font-weight: bold;">Admin</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <section class="subpage-section" style="padding-top: 120px;">
-        <div class="container">
+    <div class="layout-container">
+        
+        <aside class="info-panel">
+            <h1 class="page-title">Zasady<br>Uczestnictwa</h1>
             
-            <h2 style="text-align: center; color: #003366; margin-bottom: 30px;">Zasady Uczestnictwa</h2>
-
-            <div class="quick-info">
-                <div class="info-pill"><span>📅</span> 25 Maja 2026</div>
-                <div class="info-pill"><span>⏰</span> Start: 10:00</div>
-                <div class="info-pill"><span>📍</span> Siedlce, Park "Aleksandria"</div>
-                <div class="info-pill"><span>⏱️</span> Limit: 60 min</div>
-            </div>
-
-            <div class="rules-container">
-                <div class="rules-header">
-                    <h2>Regulamin Biegu Studenta</h2>
-                    <p>Wersja oficjalna 1.0</p>
-                </div>
-
-                <div class="rules-content">
-                    <h3 style="margin-bottom: 20px; color: #333;">§1. Zasady Ogólne</h3>
-                    
-                    <ol id="regulamin-list">
-                        <li>Każdy uczestnik musi posiadać ważną legitymację studencką lub dowód tożsamości.</li>
-                        <li>Bieg odbywa się na dystansie 5 km ulicami miasta Siedlce.</li>
-                        <li>Warunkiem uczestnictwa jest opłacenie pakietu startowego.</li>
-                        <li>Zawodnicy muszą ustawić się na starcie 15 minut przed godziną 10:00.</li>
-                        <li>Organizator zapewnia opiekę medyczną na trasie biegu.</li>
-                        <li>Decyzje sędziów są ostateczne i niepodważalne.</li>
-                    </ol>
-
-                    <p style="margin-top: 30px; font-size: 0.9rem; color: #888; font-style: italic;">
-                        * Pełna treść regulaminu dostępna jest w biurze zawodów oraz do pobrania poniżej.
-                    </p>
-                </div>
-
-                <div class="pdf-section">
-                    <div style="text-align: left;">
-                        <h4 style="margin: 0; font-size: 1.1rem;">Chcesz wydrukować regulamin?</h4>
-                        <p style="margin: 5px 0 0 0; font-size: 0.8rem; opacity: 0.8;">Pobierz pełną wersję dokumentu.</p>
+            <div class="quick-info-vertical">
+                <div class="info-pill">
+                    <span class="pill-icon">📅</span>
+                    <div>
+                        <small style="color:#888;">Data wydarzenia</small>
+                        <div>25 Maja 2026</div>
                     </div>
-                    <button class="btn-pdf" onclick="generatePDF()">
-                        <span>📄</span> Pobierz / Drukuj PDF
-                    </button>
+                </div>
+                <div class="info-pill">
+                    <span class="pill-icon">📍</span>
+                    <div>
+                        <small style="color:#888;">Miejsce startu</small>
+                        <div>Siedlce, Park "Aleksandria"</div>
+                    </div>
+                </div>
+                <div class="info-pill">
+                    <span class="pill-icon">⏱️</span>
+                    <div>
+                        <small style="color:#888;">Limit czasu</small>
+                        <div>60 minut</div>
+                    </div>
                 </div>
             </div>
 
-        </div>
-    </section>
+            <button class="btn-pdf-large" onclick="generatePDF()">
+                <span style="font-size: 1.5rem;">🖨️</span>
+                <span>Pobierz / Drukuj<br>Regulamin PDF</span>
+            </button>
 
-    <footer style="background-color: #333; color: white; padding: 40px 0; text-align: center; margin-top: 50px;">
-        <div class="container">
-            <p>📞 <a href="tel:123456789" style="color: white;">123 456 789</a> | 📧 <a href="mailto:kontakt@bieg.pl" style="color: white;">kontakt@bieg.pl</a></p>
-            <hr style="border-color: #555; width: 50%; margin: 20px auto;">
-            <p>&copy; 2026 Bieg Studenta. Wszelkie prawa zastrzeżone.</p>
-        </div>
-    </footer>
+            <div class="panel-footer">
+                <p>Masz pytania co do zasad?<br>
+                <a href="mailto:kontakt@bieg.pl" style="color: #003366; text-decoration: none; font-weight: bold;">Napisz do organizatora</a></p>
+                <br>
+                &copy; 2026 Bieg Studenta.
+            </div>
+        </aside>
+
+        <main class="content-panel">
+            <div class="content-header">
+                <h2 style="margin: 0; color: #003366; font-size: 1.2rem;">Oficjalny Regulamin Biegu</h2>
+                <span style="font-size: 0.8rem; color: #888;">Wersja 1.0 (Ostatnia aktualizacja: Styczeń 2026)</span>
+            </div>
+
+            <div class="scrollable-text">
+                <h3 style="margin-bottom: 20px; color: #333;">§1. Postanowienia Ogólne</h3>
+                
+                <ol id="regulamin-list">
+                    <li>Bieg "Wielki Bieg Studenta" jest organizowany przez Samorząd Studencki.</li>
+                    <li>Celem imprezy jest popularyzacja biegania oraz integracja środowiska akademickiego.</li>
+                    <li>Biuro zawodów znajduje się w budynku Rektoratu (ul. Konarskiego 2).</li>
+                    <li>Uczestnik startuje na własną odpowiedzialność, będąc świadomym swojego stanu zdrowia.</li>
+                    <li>Podczas biegu wszyscy uczestnicy muszą posiadać numery startowe przypięte z przodu koszulki.</li>
+                    <li>Zabrania się poruszania po trasie na rowerach, rolkach, deskorolkach oraz ze zwierzętami (chyba że kategoria "Bieg z Psem" stanowi inaczej).</li>
+                    <li>Organizator zapewnia depozyt, przebieralnie oraz toalety w strefie Start/Meta.</li>
+                    <li>Pomiar czasu odbywa się elektronicznie za pomocą chipów wbudowanych w numer startowy.</li>
+                    <li>Klasyfikacja odbywa się w kategoriach Open Kobiet i Mężczyzn oraz kategoriach specjalnych.</li>
+                    <li>Nieprzestrzeganie regulaminu lub poleceń służb porządkowych grozi dyskwalifikacją.</li>
+                    <li>Wiążąca i ostateczna interpretacja niniejszego regulaminu przysługuje wyłącznie Organizatorowi.</li>
+                </ol>
+
+                <p style="margin-top: 30px; text-align: center; color: #aaa; font-style: italic;">--- Koniec dokumentu ---</p>
+            </div>
+        </main>
+
+    </div>
 
     <script src="script.js"></script>
 
     <script>
         function generatePDF() {
-            // Pobieramy treść listy zasad (uwzględniając zmiany admina)
             const rulesContent = document.getElementById('regulamin-list').innerHTML;
-            
-            // Otwieramy nowe okno przeglądarki
             const printWindow = window.open('', '', 'height=600,width=800');
 
-            // Tworzymy strukturę dokumentu do druku
-            printWindow.document.write('<html><head><title>Regulamin - Bieg Studenta 2026</title>');
-            printWindow.document.write('<style>');
-            printWindow.document.write('body { font-family: sans-serif; padding: 40px; color: #333; }');
-            printWindow.document.write('h1 { text-align: center; color: #003366; border-bottom: 2px solid #003366; padding-bottom: 10px; }');
-            printWindow.document.write('.meta { text-align: center; color: #666; margin-bottom: 30px; font-size: 0.9rem; }');
-            printWindow.document.write('ol { line-height: 1.8; margin-top: 20px; }');
-            printWindow.document.write('li { margin-bottom: 10px; }');
-            printWindow.document.write('.footer { margin-top: 50px; text-align: center; font-size: 0.8rem; border-top: 1px solid #ccc; padding-top: 10px; }');
-            printWindow.document.write('</style>');
+            printWindow.document.write('<html><head><title>Regulamin - Bieg 2026</title>');
+            printWindow.document.write('<style>body{font-family:sans-serif;padding:40px;color:#333}h1{text-align:center;color:#003366;border-bottom:2px solid #003366;padding-bottom:10px}ol{line-height:1.6;margin-top:20px}li{margin-bottom:10px}</style>');
             printWindow.document.write('</head><body>');
-            
-            // Treść dokumentu
-            printWindow.document.write('<h1>REGULAMIN OFICJALNY</h1>');
-            printWindow.document.write('<div class="meta">Bieg Studenta 2026 | Siedlce | Dystans: 5 km</div>');
-            printWindow.document.write('<h3>§1. Zasady Uczestnictwa</h3>');
-            printWindow.document.write('<ol>' + rulesContent + '</ol>'); // Wstawiamy listę z obecnej strony
-            
-            printWindow.document.write('<div class="footer">Wygenerowano automatycznie ze strony www.bieg-studenta.pl<br>Data: ' + new Date().toLocaleDateString() + '</div>');
-            
+            printWindow.document.write('<h1>REGULAMIN BIEGU STUDENTA 2026</h1>');
+            printWindow.document.write('<p style="text-align:center;color:#666">Siedlce, Park "Aleksandria"</p>');
+            printWindow.document.write('<h3>Treść zasad:</h3>');
+            printWindow.document.write('<ol>' + rulesContent + '</ol>');
+            printWindow.document.write('<div style="margin-top:50px;text-align:center;font-size:0.8rem;border-top:1px solid #ccc;padding-top:10px">Wygenerowano ze strony www.bieg-studenta.pl</div>');
             printWindow.document.write('</body></html>');
 
-            // Zamykamy dokument i wywołujemy drukowanie
             printWindow.document.close();
             printWindow.focus();
-            
-            // Małe opóźnienie, żeby style zdążyły się załadować przed oknem druku
-            setTimeout(() => {
-                printWindow.print();
-                printWindow.close();
-            }, 500);
+            setTimeout(() => { printWindow.print(); printWindow.close(); }, 500);
         }
     </script>
 </body>
