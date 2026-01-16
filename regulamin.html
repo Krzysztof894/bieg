@@ -5,8 +5,131 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Regulamin - Bieg Studenta 2026</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- STYLE DLA REGULAMINU --- */
+
+        /* Sekcja "Szybkie Info" - pigułki na górze */
+        .quick-info {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .info-pill {
+            background: white;
+            padding: 15px 25px;
+            border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1px solid #eee;
+            color: #003366;
+            font-weight: bold;
+        }
+
+        .info-pill span { font-size: 1.2rem; }
+
+        /* Kontener Regulaminu */
+        .rules-container {
+            background: white;
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            border-top: 5px solid #003366;
+        }
+
+        .rules-header {
+            background: #f8f9fa;
+            padding: 30px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+        }
+
+        .rules-header h2 { margin: 0; color: #003366; }
+        .rules-header p { color: #666; margin-top: 5px; font-size: 0.9rem; }
+
+        /* Lista zasad */
+        .rules-content {
+            padding: 40px;
+        }
+
+        /* Stylizacja listy numerowanej (z Admina) */
+        #regulamin-list {
+            counter-reset: rule-counter;
+            list-style: none; /* Ukrywamy domyślne cyferki */
+            padding: 0;
+        }
+
+        #regulamin-list li {
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 20px;
+            line-height: 1.6;
+            color: #444;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 20px;
+        }
+
+        /* Własne numerowanie */
+        #regulamin-list li::before {
+            counter-increment: rule-counter;
+            content: counter(rule-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            background: #ffcc00;
+            color: #003366;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        /* Przycisk PDF */
+        .pdf-section {
+            background: #003366;
+            color: white;
+            padding: 30px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .btn-pdf {
+            background: #ffcc00;
+            color: #003366;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-pdf:hover { background: #e6b800; }
+
+        @media(max-width: 600px) {
+            .pdf-section { flex-direction: column; text-align: center; }
+        }
+    </style>
 </head>
 <body>
+
     <header>
         <div class="container">
             <div class="logo">Bieg Studenta</div>
@@ -21,26 +144,106 @@
             </nav>
         </div>
     </header>
-    <section style="padding-top: 120px;">
+
+    <section class="subpage-section" style="padding-top: 120px;">
         <div class="container">
-            <h2>Regulamin Biegu</h2>
-            <div class="rules-box" style="background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1);">
-                <h3>Zasady główne:</h3>
-                <ol class="rules-list" style="padding-left: 20px; line-height: 2;">
-                    </ol>
-                <hr style="margin: 30px 0; border: 0; border-top: 1px solid #eee;">
-                <p>Pobierz pełną wersję regulaminu w formacie PDF:</p>
-                <a href="#" class="btn placeholder-link" style="background: #333; color: white;">Pobierz PDF</a>
+            
+            <h2 style="text-align: center; color: #003366; margin-bottom: 30px;">Zasady Uczestnictwa</h2>
+
+            <div class="quick-info">
+                <div class="info-pill"><span>📅</span> 25 Maja 2026</div>
+                <div class="info-pill"><span>⏰</span> Start: 10:00</div>
+                <div class="info-pill"><span>📍</span> Siedlce, Park "Aleksandria"</div>
+                <div class="info-pill"><span>⏱️</span> Limit: 60 min</div>
             </div>
+
+            <div class="rules-container">
+                <div class="rules-header">
+                    <h2>Regulamin Biegu Studenta</h2>
+                    <p>Wersja oficjalna 1.0</p>
+                </div>
+
+                <div class="rules-content">
+                    <h3 style="margin-bottom: 20px; color: #333;">§1. Zasady Ogólne</h3>
+                    
+                    <ol id="regulamin-list">
+                        <li>Każdy uczestnik musi posiadać ważną legitymację studencką lub dowód tożsamości.</li>
+                        <li>Bieg odbywa się na dystansie 5 km ulicami miasta Siedlce.</li>
+                        <li>Warunkiem uczestnictwa jest opłacenie pakietu startowego.</li>
+                        <li>Zawodnicy muszą ustawić się na starcie 15 minut przed godziną 10:00.</li>
+                        <li>Organizator zapewnia opiekę medyczną na trasie biegu.</li>
+                        <li>Decyzje sędziów są ostateczne i niepodważalne.</li>
+                    </ol>
+
+                    <p style="margin-top: 30px; font-size: 0.9rem; color: #888; font-style: italic;">
+                        * Pełna treść regulaminu dostępna jest w biurze zawodów oraz do pobrania poniżej.
+                    </p>
+                </div>
+
+                <div class="pdf-section">
+                    <div style="text-align: left;">
+                        <h4 style="margin: 0; font-size: 1.1rem;">Chcesz wydrukować regulamin?</h4>
+                        <p style="margin: 5px 0 0 0; font-size: 0.8rem; opacity: 0.8;">Pobierz pełną wersję dokumentu.</p>
+                    </div>
+                    <button class="btn-pdf" onclick="generatePDF()">
+                        <span>📄</span> Pobierz / Drukuj PDF
+                    </button>
+                </div>
+            </div>
+
         </div>
     </section>
 
-    <footer>
+    <footer style="background-color: #333; color: white; padding: 40px 0; text-align: center; margin-top: 50px;">
         <div class="container">
+            <p>📞 <a href="tel:123456789" style="color: white;">123 456 789</a> | 📧 <a href="mailto:kontakt@bieg.pl" style="color: white;">kontakt@bieg.pl</a></p>
+            <hr style="border-color: #555; width: 50%; margin: 20px auto;">
             <p>&copy; 2026 Bieg Studenta. Wszelkie prawa zastrzeżone.</p>
         </div>
     </footer>
 
     <script src="script.js"></script>
+
+    <script>
+        function generatePDF() {
+            // Pobieramy treść listy zasad (uwzględniając zmiany admina)
+            const rulesContent = document.getElementById('regulamin-list').innerHTML;
+            
+            // Otwieramy nowe okno przeglądarki
+            const printWindow = window.open('', '', 'height=600,width=800');
+
+            // Tworzymy strukturę dokumentu do druku
+            printWindow.document.write('<html><head><title>Regulamin - Bieg Studenta 2026</title>');
+            printWindow.document.write('<style>');
+            printWindow.document.write('body { font-family: sans-serif; padding: 40px; color: #333; }');
+            printWindow.document.write('h1 { text-align: center; color: #003366; border-bottom: 2px solid #003366; padding-bottom: 10px; }');
+            printWindow.document.write('.meta { text-align: center; color: #666; margin-bottom: 30px; font-size: 0.9rem; }');
+            printWindow.document.write('ol { line-height: 1.8; margin-top: 20px; }');
+            printWindow.document.write('li { margin-bottom: 10px; }');
+            printWindow.document.write('.footer { margin-top: 50px; text-align: center; font-size: 0.8rem; border-top: 1px solid #ccc; padding-top: 10px; }');
+            printWindow.document.write('</style>');
+            printWindow.document.write('</head><body>');
+            
+            // Treść dokumentu
+            printWindow.document.write('<h1>REGULAMIN OFICJALNY</h1>');
+            printWindow.document.write('<div class="meta">Bieg Studenta 2026 | Siedlce | Dystans: 5 km</div>');
+            printWindow.document.write('<h3>§1. Zasady Uczestnictwa</h3>');
+            printWindow.document.write('<ol>' + rulesContent + '</ol>'); // Wstawiamy listę z obecnej strony
+            
+            printWindow.document.write('<div class="footer">Wygenerowano automatycznie ze strony www.bieg-studenta.pl<br>Data: ' + new Date().toLocaleDateString() + '</div>');
+            
+            printWindow.document.write('</body></html>');
+
+            // Zamykamy dokument i wywołujemy drukowanie
+            printWindow.document.close();
+            printWindow.focus();
+            
+            // Małe opóźnienie, żeby style zdążyły się załadować przed oknem druku
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+        }
+    </script>
 </body>
 </html>
