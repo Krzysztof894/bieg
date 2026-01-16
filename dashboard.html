@@ -6,20 +6,165 @@
     <title>Panel Administratora - Bieg 2026</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Proste style tylko dla panelu admina */
-        .admin-layout { display: flex; min-height: 80vh; margin-top: 20px; }
-        .sidebar { width: 250px; background: #003366; color: white; padding: 20px; border-radius: 0 10px 10px 0; }
-        .sidebar ul { list-style: none; padding: 0; }
-        .sidebar li { padding: 15px; cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .sidebar li:hover, .sidebar li.active { background: #004080; font-weight: bold; color: #ffcc00; }
-        .content-area { flex: 1; padding: 30px; background: white; margin-left: 20px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,0,0,0.1); }
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
-        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; }
-        .btn-save { background: #28a745; color: white; padding: 10px 20px; border: none; cursor: pointer; margin-top: 10px; }
-        .btn-reset { background: #dc3545; color: white; padding: 10px 20px; border: none; cursor: pointer; margin-top: 10px; margin-left: 10px; }
+        /* --- STYLE TYLKO DLA DASHBOARDU --- */
+        
+        body {
+            background-color: #f0f2f5; /* Szare tło całej strony dla lepszego kontrastu */
+        }
+
+        /* Naprawa "wjeżdżania" menu na treść - kluczowa zmiana */
+        .admin-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-top: 120px; /* Duży odstęp od góry */
+            padding-bottom: 50px;
+            display: flex;
+            gap: 20px;
+            min-height: 80vh;
+        }
+
+        /* LEWY PASEK (SIDEBAR) */
+        .admin-sidebar {
+            flex: 0 0 260px; /* Stała szerokość */
+            background: #003366; /* Granatowy */
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            height: fit-content; /* Wysokość dopasowana do treści */
+        }
+
+        .admin-sidebar h3 {
+            color: #ffcc00;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 10px;
+        }
+
+        .admin-sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .admin-sidebar li {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-radius: 6px;
+            transition: background 0.2s;
+            margin-bottom: 5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .admin-sidebar li:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .admin-sidebar li.active {
+            background: #ffcc00;
+            color: #003366;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+
+        /* PRAWA STRONA (TREŚĆ) */
+        .admin-content {
+            flex: 1; /* Zajmuje resztę miejsca */
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* STYLIZACJA FORMULARZY GENEROWANYCH PRZEZ JS */
+        .form-group {
+            margin-bottom: 20px;
+            background: #f9fcff;
+            padding: 15px;
+            border: 1px solid #e1e8ed;
+            border-radius: 8px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #003366;
+            font-size: 0.9rem;
+        }
+
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-group input:focus, 
+        .form-group textarea:focus {
+            border-color: #003366;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 51, 102, 0.2);
+        }
+
+        /* PRZYCISKI */
+        .btn-save {
+            background-color: #28a745; /* Zielony */
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn-save:hover {
+            background-color: #218838;
+        }
+
+        .btn-reset {
+            background-color: transparent;
+            color: #dc3545;
+            border: 1px solid #dc3545;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            margin-top: 20px;
+        }
+
+        .btn-reset:hover {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        h2 { margin-bottom: 5px; color: #333; }
+        p.subtitle { color: #666; margin-bottom: 30px; }
+
     </style>
 </head>
 <body>
@@ -40,77 +185,61 @@
         </div>
     </header>
 
-    <div class="container admin-layout">
-        <aside class="sidebar">
+    <div class="admin-wrapper">
+        
+        <aside class="admin-sidebar">
+            <h3>Menu Edycji</h3>
             <ul>
-                <li onclick="switchTab('tab-cennik')" class="active">💰 Edytuj Cennik</li>
-                <li onclick="switchTab('tab-trasa')">🗺️ Edytuj Trasę</li>
-                <li onclick="switchTab('tab-nagrody')">🏆 Edytuj Nagrody</li>
-                <li onclick="switchTab('tab-regulamin')">📜 Edytuj Regulamin</li>
+                <li onclick="switchTab('tab-cennik')" class="active">💰 Cennik</li>
+                <li onclick="switchTab('tab-trasa')">🗺️ Trasa</li>
+                <li onclick="switchTab('tab-nagrody')">🏆 Nagrody</li>
+                <li onclick="switchTab('tab-regulamin')">📜 Regulamin</li>
             </ul>
         </aside>
 
-        <main class="content-area">
-            <h2 style="border-bottom: 2px solid #eee; padding-bottom: 10px; margin-bottom: 20px;">Zarządzanie treścią</h2>
+        <main class="admin-content">
+            <h2>Zarządzanie treścią</h2>
+            <p class="subtitle">Wybierz sekcję z menu po lewej, aby edytować informacje na stronie.</p>
 
             <div id="tab-cennik" class="tab-content active">
-                <h3>Edycja Cennika</h3>
+                <h3 style="color: #003366; margin-bottom: 15px;">Edytuj Cennik</h3>
                 <form id="cennik-form">
                     </form>
-                <button class="btn-save" onclick="saveCennik()">Zapisz Cennik</button>
+                <button class="btn-save" onclick="saveCennik()">💾 Zapisz zmiany w Cenniku</button>
             </div>
 
-            <section id="overview" class="tab-content active">
-                <div class="card">
-                    <h2>Status Danych</h2>
-                    <p>Dane są przechowywane w pamięci przeglądarki (LocalStorage).</p>
-                    <div id="last-update-info">Ostatnia aktualizacja: Brak danych</div>
-                </div>
-                <div class="card instruction-card">
-                    <h3>Instrukcja Importu</h3>
-                    <p>Aby zaktualizować dane, zaimportuj plik Excel (.xlsx) zawierający arkusze o nazwach:</p>
-                    <ul>
-                        <li><code>Cennik</code> (kolumny: Kategoria, Cena1, Cena2, Cena3)</li>
-                        <li><code>Trasa</code> (kolumny: Klucz, Wartosc)</li>
-                        <li><code>Nagrody</code> (kolumny: Tytul, Opis, Ikona)</li>
-                        <li><code>Regulamin</code> (kolumny: Zasada)</li>
-                    </ul>
-                </div>
-            </section>
+            <div id="tab-trasa" class="tab-content">
+                <h3 style="color: #003366; margin-bottom: 15px;">Edytuj parametry Trasy</h3>
+                <form id="trasa-form">
+                    </form>
+                <button class="btn-save" onclick="saveTrasa()">💾 Zapisz zmiany w Trasie</button>
+            </div>
 
-            <section id="cennik" class="tab-content">
-                <h2>Aktualny Cennik</h2>
-                <table class="dashboard-table" id="cennik-table">
-                    <thead>
-                        <tr>
-                            <th>Kategoria</th>
-                            <th>Termin 1</th>
-                            <th>Termin 2</th>
-                            <th>Dzień zawodów</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </section>
+            <div id="tab-nagrody" class="tab-content">
+                <h3 style="color: #003366; margin-bottom: 15px;">Edytuj Nagrody</h3>
+                <form id="nagrody-form">
+                     </form>
+                <button class="btn-save" onclick="saveNagrody()">💾 Zapisz zmiany w Nagrodach</button>
+            </div>
 
-            <section id="trasa" class="tab-content">
-                <h2>Szczegóły Trasy</h2>
-                <div class="grid-cards" id="trasa-container"></div>
-            </section>
+            <div id="tab-regulamin" class="tab-content">
+                <h3 style="color: #003366; margin-bottom: 15px;">Edytuj punkty Regulaminu</h3>
+                <form id="regulamin-form">
+                     </form>
+                <button class="btn-save" onclick="saveRegulamin()">💾 Zapisz zmiany w Regulaminie</button>
+            </div>
 
-            <section id="nagrody" class="tab-content">
-                <h2>Lista Nagród</h2>
-                <div class="grid-cards" id="nagrody-container"></div>
-            </section>
-
-            <section id="regulamin" class="tab-content">
-                <h2>Punkty Regulaminu</h2>
-                <ul class="dashboard-list" id="regulamin-list"></ul>
-            </section>
+            <div style="margin-top: 50px; border-top: 1px solid #eee; padding-top: 20px; text-align: right;">
+                <button class="btn-reset" onclick="resetToDefaults()">⚠ Przywróć ustawienia domyślne</button>
+            </div>
         </main>
+
     </div>
+
+    <footer style="text-align: center; padding: 20px; color: #888; font-size: 0.8rem;">
+        &copy; 2026 Panel Administratora Bieg Studenta
+    </footer>
 
     <script src="dashboard.js"></script>
 </body>
-
 </html>
