@@ -5,6 +5,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cennik - Bieg Studenta 2026</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- NOWE STYLE DLA KART CENOWYCH --- */
+        
+        .pricing-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap; /* Żeby na telefonie spadały pod siebie */
+            margin-top: 40px;
+        }
+
+        .pricing-card {
+            background: white;
+            border-radius: 20px;
+            width: 300px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        /* Wyróżniona karta Studenta */
+        .card-highlighted {
+            border: 2px solid #ffcc00;
+            transform: scale(1.05); /* Lekko powiększona */
+            z-index: 2;
+        }
+        
+        /* Etykieta "Polecane" */
+        .best-value-badge {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffcc00;
+            color: #003366;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .pricing-icon {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .pricing-title {
+            color: #003366;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        /* Lista cen */
+        .price-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+            text-align: left;
+            flex-grow: 1; /* Rozciąga listę, żeby przycisk był na dole */
+        }
+
+        .price-list li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #f0f0f0;
+            color: #555;
+        }
+
+        .price-list li:last-child {
+            border-bottom: none;
+            font-weight: bold;
+            color: #d9534f; /* Kolor dla ceny "W dniu zawodów" */
+        }
+
+        .price-tag {
+            font-weight: bold;
+            color: #003366;
+            font-size: 1.1rem;
+        }
+
+        /* Sekcja pakietu (co zawiera) */
+        .package-info {
+            background: #f9fbfc;
+            padding: 40px 20px;
+            margin-top: 60px;
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .package-icons {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .pkg-item { text-align: center; }
+        .pkg-item span { font-size: 2.5rem; display: block; margin-bottom: 10px; }
+        .pkg-item p { font-size: 0.9rem; font-weight: bold; color: #555; }
+
+    </style>
 </head>
 <body>
 
@@ -15,57 +132,112 @@
                 <ul>
                     <li><a href="index.html">Start</a></li>
                     <li><a href="trasa.html">Trasa</a></li>
-                    <li><a href="cennik.html" class="active">Cennik</a></li>
-                    <li><a href="nagrody.html">Nagrody</a></li>
+                    <li><a href="cennik.html" class="active">Cennik</a></li> <li><a href="nagrody.html">Nagrody</a></li>
                     <li><a href="regulamin.html">Regulamin</a></li>
-                    <li><a href="dashboard.html" style="color: #ffcc00;">Admin</a></li>
+                    <li><a href="dashboard.html" style="color: #ffcc00; font-weight: bold;">Admin</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <section class="subpage-section">
+    <section class="subpage-section" style="padding-top: 120px;">
         <div class="container">
-            <h2 class="subpage-header" style="text-align: center; margin-bottom: 40px; color: #003366;">Cennik Pakietów</h2>
-            
-            <table class="pricing-table">
-                <thead>
-                    <tr>
-                        <th>Rodzaj Uczestnika</th>
-                        <th>Do 31 Marca</th>
-                        <th>Do 20 Maja</th>
-                        <th>W dniu zawodów</th>
-                    </tr>
-                </thead>
-                <tbody id="cennik-body">
-                    <tr>
-                        <td><strong>Student / Doktorant</strong></td>
-                        <td>25 PLN</td>
-                        <td>35 PLN</td>
-                        <td>50 PLN</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Absolwent / Pracownik</strong></td>
-                        <td>40 PLN</td>
-                        <td>50 PLN</td>
-                        <td>70 PLN</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Pozostali</strong></td>
-                        <td>50 PLN</td>
-                        <td>70 PLN</td>
-                        <td>90 PLN</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <div style="text-align: center; margin-top: 40px;">
-                <p style="font-size: 1.1rem; margin-bottom: 20px;">
-                    <strong>W pakiecie otrzymujesz:</strong><br>
-                    koszulkę techniczną, numer startowy z chipem, wodę na trasie oraz posiłek regeneracyjny na mecie.
-                </p>
-                <a href="#" class="btn" style="background-color: #ffcc00; color: #003366; padding: 10px 20px; text-decoration: none; font-weight: bold; border-radius: 5px;">Przejdź do płatności</a>
+            <div style="text-align: center; margin-bottom: 50px;">
+                <h2 style="color: #003366; margin-bottom: 10px;">Wybierz swój Pakiet</h2>
+                <p style="color: #666;">Cena wpisowego zależy od terminu wpłaty. Im szybciej, tym taniej!</p>
             </div>
+            
+            <div class="pricing-container">
+
+                <div class="pricing-card">
+                    <span class="pricing-icon">💼</span>
+                    <h3 class="pricing-title">Absolwent /<br>Pracownik</h3>
+                    <ul class="price-list">
+                        <li>
+                            <span>Do 31 Marca</span>
+                            <span class="price-tag">40 PLN</span>
+                        </li>
+                        <li>
+                            <span>Do 20 Maja</span>
+                            <span class="price-tag">50 PLN</span>
+                        </li>
+                        <li>
+                            <span>W dniu biegu</span>
+                            <span class="price-tag">70 PLN</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="btn" style="background: white; border: 2px solid #003366; color: #003366;">Zapisz się</a>
+                </div>
+
+                <div class="pricing-card card-highlighted">
+                    <div class="best-value-badge">Najlepsza Cena</div>
+                    <span class="pricing-icon">🎓</span>
+                    <h3 class="pricing-title">Student /<br>Doktorant</h3>
+                    <ul class="price-list">
+                        <li>
+                            <span>Do 31 Marca</span>
+                            <span class="price-tag" style="font-size: 1.4rem; color: #28a745;">25 PLN</span>
+                        </li>
+                        <li>
+                            <span>Do 20 Maja</span>
+                            <span class="price-tag">35 PLN</span>
+                        </li>
+                        <li>
+                            <span>W dniu biegu</span>
+                            <span class="price-tag">50 PLN</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="btn" style="width: 100%;">Zapisz się</a>
+                </div>
+
+                <div class="pricing-card">
+                    <span class="pricing-icon">🏃</span>
+                    <h3 class="pricing-title">Pozostali<br>Uczestnicy</h3>
+                    <ul class="price-list">
+                        <li>
+                            <span>Do 31 Marca</span>
+                            <span class="price-tag">50 PLN</span>
+                        </li>
+                        <li>
+                            <span>Do 20 Maja</span>
+                            <span class="price-tag">70 PLN</span>
+                        </li>
+                        <li>
+                            <span>W dniu biegu</span>
+                            <span class="price-tag">90 PLN</span>
+                        </li>
+                    </ul>
+                    <a href="#" class="btn" style="background: white; border: 2px solid #003366; color: #003366;">Zapisz się</a>
+                </div>
+
+            </div>
+
+            <div class="package-info">
+                <h3 style="color: #003366;">Co zawiera pakiet startowy?</h3>
+                <div class="package-icons">
+                    <div class="pkg-item">
+                        <span>🎽</span>
+                        <p>Techniczna<br>Koszulka</p>
+                    </div>
+                    <div class="pkg-item">
+                        <span>🏷️</span>
+                        <p>Numer<br>z Chipem</p>
+                    </div>
+                    <div class="pkg-item">
+                        <span>💧</span>
+                        <p>Woda<br>na trasie</p>
+                    </div>
+                    <div class="pkg-item">
+                        <span>🍌</span>
+                        <p>Posiłek<br>Regeneracyjny</p>
+                    </div>
+                    <div class="pkg-item">
+                        <span>🏅</span>
+                        <p>Pamiątkowy<br>Medal</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
@@ -77,6 +249,5 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
-</body>
+    </body>
 </html>
