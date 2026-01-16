@@ -6,27 +6,30 @@
     <title>Regulamin - Bieg Studenta 2026</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* --- UKŁAD "ONE SCREEN" (BEZ SCROLLOWANIA STRONY) --- */
+        /* --- UKŁAD "ONE SCREEN" (POPRAWIONY MARGINES) --- */
         body {
             height: 100vh;
-            overflow: hidden; /* Blokada głównego paska przewijania */
-            display: flex;
-            flex-direction: column;
+            overflow: hidden; /* Blokada głównego scrolla */
             background-color: #f4f7f6;
+            margin: 0;
         }
-
-        header { flex: 0 0 auto; z-index: 10; }
 
         /* Główny kontener dzielący ekran */
         .layout-container {
-            flex: 1; /* Zajmuje resztę wysokości */
             display: flex;
-            padding: 20px;
             gap: 30px;
-            overflow: hidden;
+            padding: 0 20px 20px 20px; /* Padding: góra-prawo-dół-lewo */
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
+            
+            /* --- KLUCZOWA POPRAWKA --- */
+            /* Zwiększamy odstęp od góry, żeby header nie zasłaniał tytułu */
+            margin-top: 140px; 
+            
+            /* Obliczamy wysokość, żeby zmieściło się na jednym ekranie: 
+               100vh (ekran) - 140px (góra) - 20px (dół) = reszta dla treści */
+            height: calc(100vh - 160px); 
         }
 
         /* --- LEWA STRONA (PANEL AKCJI) --- */
@@ -35,7 +38,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding: 20px;
+            padding: 10px;
         }
 
         .page-title {
@@ -43,14 +46,16 @@
             color: #003366;
             line-height: 1.2;
             margin-bottom: 30px;
+            /* Dodatkowe zabezpieczenie */
+            padding-top: 10px; 
         }
 
-        /* Pigułki informacyjne (Pionowo) */
+        /* Pigułki informacyjne */
         .quick-info-vertical {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
         }
 
         .info-pill {
@@ -61,7 +66,7 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            border-left: 5px solid #ffcc00; /* Akcent */
+            border-left: 5px solid #ffcc00;
             font-weight: 600;
             color: #333;
             transition: transform 0.2s;
@@ -88,6 +93,7 @@
             border: none;
             font-size: 1rem;
             transition: background 0.3s;
+            margin-bottom: 20px;
         }
         .btn-pdf-large:hover { background: #002244; }
 
@@ -100,7 +106,7 @@
             padding-top: 15px;
         }
 
-        /* --- PRAWA STRONA (TREŚĆ REGULAMINU - SCROLLOWALNA) --- */
+        /* --- PRAWA STRONA (TREŚĆ - SCROLLOWALNA) --- */
         .content-panel {
             flex: 2; /* 66% szerokości */
             background: white;
@@ -108,7 +114,7 @@
             box-shadow: 0 10px 40px rgba(0,0,0,0.1);
             display: flex;
             flex-direction: column;
-            overflow: hidden; /* Ważne dla border-radius */
+            overflow: hidden; 
             border: 1px solid #eee;
         }
 
@@ -116,17 +122,17 @@
             background: #f8f9fa;
             padding: 20px 30px;
             border-bottom: 1px solid #eee;
-            flex: 0 0 auto; /* Nie zmniejsza się */
+            flex: 0 0 auto;
         }
 
-        /* Obszar scrollowania */
+        /* Tylko ten element ma pasek przewijania */
         .scrollable-text {
             padding: 40px;
-            overflow-y: auto; /* Scroll tylko tutaj! */
-            flex: 1; /* Zajmuje resztę miejsca */
+            overflow-y: auto; 
+            flex: 1; 
         }
 
-        /* Stylizacja listy (identyczna jak wcześniej) */
+        /* Stylizacja listy numerowanej */
         #regulamin-list {
             counter-reset: rule-counter;
             list-style: none;
@@ -160,8 +166,13 @@
 
         /* --- RWD (MOBILE) --- */
         @media (max-width: 900px) {
-            body { height: auto; overflow: auto; display: block; }
-            .layout-container { flex-direction: column; height: auto; overflow: visible; }
+            body { height: auto; overflow: auto; margin-top: 80px; }
+            .layout-container { 
+                flex-direction: column; 
+                height: auto; 
+                margin-top: 20px; /* Resetujemy duży margines na mobilkach */
+                overflow: visible; 
+            }
             .content-panel { height: auto; margin-bottom: 40px; }
             .scrollable-text { overflow-y: visible; height: auto; }
             .page-title { font-size: 2rem; text-align: center; margin-bottom: 20px; }
@@ -243,9 +254,9 @@
                     <li>Biuro zawodów znajduje się w budynku Rektoratu (ul. Konarskiego 2).</li>
                     <li>Uczestnik startuje na własną odpowiedzialność, będąc świadomym swojego stanu zdrowia.</li>
                     <li>Podczas biegu wszyscy uczestnicy muszą posiadać numery startowe przypięte z przodu koszulki.</li>
-                    <li>Zabrania się poruszania po trasie na rowerach, rolkach, deskorolkach oraz ze zwierzętami (chyba że kategoria "Bieg z Psem" stanowi inaczej).</li>
+                    <li>Zabrania się poruszania po trasie na rowerach, rolkach, deskorolkach oraz ze zwierzętami.</li>
                     <li>Organizator zapewnia depozyt, przebieralnie oraz toalety w strefie Start/Meta.</li>
-                    <li>Pomiar czasu odbywa się elektronicznie za pomocą chipów wbudowanych w numer startowy.</li>
+                    <li>Pomiar czasu odbywa się elektronicznie za pomocą chipów.</li>
                     <li>Klasyfikacja odbywa się w kategoriach Open Kobiet i Mężczyzn oraz kategoriach specjalnych.</li>
                     <li>Nieprzestrzeganie regulaminu lub poleceń służb porządkowych grozi dyskwalifikacją.</li>
                     <li>Wiążąca i ostateczna interpretacja niniejszego regulaminu przysługuje wyłącznie Organizatorowi.</li>
