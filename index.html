@@ -2,21 +2,43 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wielki Bieg Studenta 2026</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Styl lokalny dla Hero Image (dla Kamila i Ani) */
+        .hero {
+            background: linear-gradient(rgba(0,51,102,0.7), rgba(0,51,102,0.7)), url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+        }
+        .hero h1 { color: white; font-size: 3rem; text-transform: uppercase; margin-bottom: 10px; }
+        .hero p { color: #f0f0f0; font-size: 1.2rem; }
+        .hero strong { color: #ffcc00; font-size: 1.4rem; }
+        .btn-cta {
+            background-color: #ffcc00; color: #003366; padding: 15px 30px; 
+            font-weight: bold; text-decoration: none; border-radius: 5px; 
+            display: inline-block; margin-top: 20px; transition: 0.3s;
+        }
+        .btn-cta:hover { background-color: #e6b800; transform: scale(1.05); }
+    </style>
 </head>
 <body>
+
     <header>
         <div class="container">
             <div class="logo">Bieg Studenta</div>
             <nav>
                 <ul>
-                    <li><a href="index.html">Start</a></li>
+                    <li><a href="index.html" class="active">Start</a></li>
                     <li><a href="trasa.html">Trasa</a></li>
                     <li><a href="cennik.html">Cennik</a></li>
                     <li><a href="nagrody.html">Nagrody</a></li>
                     <li><a href="regulamin.html">Regulamin</a></li>
-                    <li><a href="dashboard.html" style="color: #ffcc00; font-weight: bold;">Admin</a></li>
+                    <li><a href="dashboard.html" style="color: #ffcc00;">Admin</a></li>
                 </ul>
             </nav>
         </div>
@@ -26,19 +48,26 @@
         <div class="hero-content">
             <h1>Bieg Studenta 2026</h1>
             <p>Największe sportowe wydarzenie akademickie w mieście!</p>
-            <p><strong>25 Maja 2026 | Start: 10:00</strong></p>
+            <p style="margin-top: 10px;"><strong>📅 25 Maja 2026 | Start: 10:00</strong></p>
             <br>
-            <a href="cennik.html" class="btn">Sprawdź ceny i zapisz się</a>
+            <a href="cennik.html" class="btn-cta">ZAPISZ SIĘ TERAZ!</a>
         </div>
     </section>
 
-    <footer>
+    <footer style="background-color: #333; color: white; padding: 40px 0; text-align: center; margin-top: 50px;">
         <div class="container">
-            <p>&copy; 2025 Bieg Studenta. | <a href="dashboard.html">Panel Zarządzania</a></p>
+            <div style="margin-bottom: 20px;">
+                <h3 style="color: #ffcc00; margin-bottom: 15px;">Masz pytania? Skontaktuj się z nami!</h3>
+                <p style="font-size: 1.1rem;">
+                    📞 <a href="tel:123456789" style="color: white; text-decoration: none;">123 456 789</a> &nbsp;|&nbsp; 
+                    📧 <a href="mailto:kontakt@bieg.pl" style="color: white; text-decoration: none;">kontakt@bieg.pl</a>
+                </p>
+            </div>
+            <hr style="border-color: #555; width: 50%; margin: 20px auto;">
+            <p>&copy; 2026 Bieg Studenta. Wszelkie prawa zastrzeżone.</p>
         </div>
     </footer>
+
     <script src="script.js"></script>
 </body>
-
 </html>
-
