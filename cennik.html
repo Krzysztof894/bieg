@@ -2,32 +2,80 @@
 <html lang="pl">
 <head>
     <meta charset="UTF-8">
-    <title>Cennik - Bieg Studenta</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cennik - Bieg Studenta 2026</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>...</header>
 
-    <section id="cennik">
+    <header>
         <div class="container">
-            <h2>Cennik Opłat</h2>
+            <div class="logo">Bieg Studenta</div>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Start</a></li>
+                    <li><a href="trasa.html">Trasa</a></li>
+                    <li><a href="cennik.html" class="active">Cennik</a></li>
+                    <li><a href="nagrody.html">Nagrody</a></li>
+                    <li><a href="regulamin.html">Regulamin</a></li>
+                    <li><a href="dashboard.html" style="color: #ffcc00;">Admin</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section class="subpage-section">
+        <div class="container">
+            <h2 class="subpage-header" style="text-align: center; margin-bottom: 40px; color: #003366;">Cennik Pakietów</h2>
+            
             <table class="pricing-table">
                 <thead>
                     <tr>
-                        <th>Uczestnik</th>
-                        <th>I Termin (do 31.03)</th>
-                        <th>II Termin (do 20.05)</th>
-                        <th>W dniu biegu</th>
+                        <th>Rodzaj Uczestnika</th>
+                        <th>Do 31 Marca</th>
+                        <th>Do 20 Maja</th>
+                        <th>W dniu zawodów</th>
                     </tr>
                 </thead>
-                <tbody>
-                    </tbody>
+                <tbody id="cennik-body">
+                    <tr>
+                        <td><strong>Student / Doktorant</strong></td>
+                        <td>25 PLN</td>
+                        <td>35 PLN</td>
+                        <td>50 PLN</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Absolwent / Pracownik</strong></td>
+                        <td>40 PLN</td>
+                        <td>50 PLN</td>
+                        <td>70 PLN</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pozostali</strong></td>
+                        <td>50 PLN</td>
+                        <td>70 PLN</td>
+                        <td>90 PLN</td>
+                    </tr>
+                </tbody>
             </table>
+
             <div style="text-align: center; margin-top: 40px;">
-                <a href="#" class="btn placeholder-link">Zarejestruj się teraz</a>
+                <p style="font-size: 1.1rem; margin-bottom: 20px;">
+                    <strong>W pakiecie otrzymujesz:</strong><br>
+                    koszulkę techniczną, numer startowy z chipem, wodę na trasie oraz posiłek regeneracyjny na mecie.
+                </p>
+                <a href="#" class="btn" style="background-color: #ffcc00; color: #003366; padding: 10px 20px; text-decoration: none; font-weight: bold; border-radius: 5px;">Przejdź do płatności</a>
             </div>
         </div>
     </section>
+
+    <footer style="background-color: #333; color: white; padding: 40px 0; text-align: center; margin-top: 50px;">
+        <div class="container">
+            <p>📞 <a href="tel:123456789" style="color: white;">123 456 789</a> | 📧 <a href="mailto:kontakt@bieg.pl" style="color: white;">kontakt@bieg.pl</a></p>
+            <hr style="border-color: #555; width: 50%; margin: 20px auto;">
+            <p>&copy; 2026 Bieg Studenta. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
