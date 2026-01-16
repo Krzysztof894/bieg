@@ -3,8 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trasa - Bieg Studenta 2026</title>
+    <title>Trasa 5km - Siedlce Bieg 2026</title>
     <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
+     
+    <style>
+        /* Styl dla kontenera mapy */
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            /* Zapewnia, że mapa jest pod nawigacją, jeśli ta jest 'sticky' */
+            z-index: 1; 
+        }
+    </style>
 </head>
 <body>
 
@@ -14,43 +30,99 @@
             <nav>
                 <ul>
                     <li><a href="index.html">Start</a></li>
-                    <li><a href="trasa.html" class="active">Trasa</a></li>
-                    <li><a href="cennik.html">Cennik</a></li>
+                    <li><a href="trasa.html" class="active">Trasa</a></li> <li><a href="cennik.html">Cennik</a></li>
                     <li><a href="nagrody.html">Nagrody</a></li>
                     <li><a href="regulamin.html">Regulamin</a></li>
-                    <li><a href="dashboard.html" style="color: #ffcc00;">Admin</a></li>
+                    <li><a href="dashboard.html" style="color: #ffcc00; font-weight: bold;">Admin</a></li>
                 </ul>
             </nav>
         </div>
     </header>
 
-    <section class="subpage-section">
+    <section class="subpage-section" style="padding-top: 120px;">
         <div class="container">
-            <h2 class="subpage-header" style="text-align: center; margin-bottom: 40px; color: #003366;">Trasa Biegu</h2>
+            <h2 class="subpage-header" style="text-align: center; margin-bottom: 30px; color: #003366;">Mapa Trasy 5 km - Siedlce</h2>
             
             <div class="route-details" style="display: flex; justify-content: center; gap: 30px; flex-wrap: wrap; margin-bottom: 40px;">
+                <div class="detail-box" style="background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); flex: 1 1 200px;">
+                    <span style="font-size: 2rem;">📏</span>
+                    <h3 style="margin: 10px 0; color: #003366;">Dystans</h3>
+                    <p style="font-weight: bold; font-size: 1.2rem;">5 km</p>
                 </div>
-
-            <div class="map-placeholder" style="width: 100%; height: 400px; background-color: #ddd; border-radius: 15px; display: flex; align-items: center; justify-content: center; background-image: url('https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=1000&q=80'); background-size: cover; background-position: center;">
-                <div style="background: rgba(255,255,255,0.9); padding: 20px; border-radius: 10px; text-align: center;">
-                    <h3>Mapa Trasy</h3>
-                    <p>(Podgląd mapy wkrótce dostępny)</p>
+                <div class="detail-box" style="background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); flex: 1 1 200px;">
+                    <span style="font-size: 2rem;">⛰️</span>
+                    <h3 style="margin: 10px 0; color: #003366;">Przewyższenia</h3>
+                    <p style="font-weight: bold; font-size: 1.2rem;">Płaska (miejska)</p>
+                </div>
+                 <div class="detail-box" style="background: white; padding: 20px; border-radius: 10px; text-align: center; box-shadow: 0 5px 15px rgba(0,0,0,0.05); flex: 1 1 200px;">
+                    <span style="font-size: 2rem;">🏁</span>
+                    <h3 style="margin: 10px 0; color: #003366;">Start / Meta</h3>
+                    <p style="font-weight: bold; font-size: 1.2rem;">Park "Aleksandria"</p>
                 </div>
             </div>
+
+            <div id="map"></div>
+            <p style="text-align: center; margin-top: 15px; color: #666; font-size: 0.9rem;">
+                *To jest przykładowa trasa poglądowa w Siedlcach. Oficjalna trasa może ulec zmianie.
+            </p>
+
         </div>
     </section>
 
     <footer style="background-color: #333; color: white; padding: 40px 0; text-align: center; margin-top: 50px;">
         <div class="container">
-            <div style="margin-bottom: 20px;">
-                <h3 style="color: #ffcc00;">Pytania o trasę?</h3>
-                <p>📞 <a href="tel:123456789" style="color: white;">123 456 789</a> | 📧 <a href="mailto:kontakt@bieg.pl" style="color: white;">kontakt@bieg.pl</a></p>
-            </div>
+            <p>📞 <a href="tel:123456789" style="color: white;">123 456 789</a> | 📧 <a href="mailto:kontakt@bieg.pl" style="color: white;">kontakt@bieg.pl</a></p>
             <hr style="border-color: #555; width: 50%; margin: 20px auto;">
             <p>&copy; 2026 Bieg Studenta. Wszelkie prawa zastrzeżone.</p>
         </div>
     </footer>
 
     <script src="script.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+
+    <script>
+        // 1. Inicjalizacja mapy (Centrum Siedlec)
+        // Współrzędne: [szerokość (lat), długość (lng)]
+        const map = L.map('map').setView([52.168, 22.280], 14); // Zoom 14
+
+        // 2. Dodanie warstwy kafelków (OpenStreetMap)
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // 3. Definicja punktów trasy (Przykładowa pętla 5km w Siedlcach)
+        // Start przy Parku, przez centrum, powrót.
+        const routeCoordinates = [
+            [52.16466, 22.27593], // START: Okolice Parku/Pałacu
+            [52.16747, 22.27881], // Ul. Konarskiego
+            [52.16998, 22.28336], // Katedra
+            [52.17116, 22.28898], // Skręt w stronę wschodnią
+            [52.16886, 22.29516], // Okolice stadionu/wschodnia strona
+            [52.16493, 22.29280], // Powrót południową stroną
+            [52.16233, 22.28507],
+            [52.16333, 22.27834],
+            [52.16466, 22.27593]  // META: Powrót do startu
+        ];
+
+        // 4. Rysowanie linii trasy (Polilinia)
+        const routeLine = L.polyline(routeCoordinates, {
+            color: '#ff4500', /* Kolor: Energetyczny pomarańczowy */
+            weight: 6,        /* Grubość linii */
+            opacity: 0.8,     /* Przezroczystość */
+            lineJoin: 'round' /* Zaokrąglone łączenia */
+        }).addTo(map);
+
+        // Dopasowanie widoku mapy do całej trasy
+        map.fitBounds(routeLine.getBounds(), {padding: [50, 50]});
+
+        // 5. Dodanie znacznika Startu/Mety
+        const startMarker = L.marker(routeCoordinates[0]).addTo(map);
+        startMarker.bindPopup("<b>START / META</b><br>Bieg Studenta 5 km").openPopup();
+
+    </script>
 </body>
 </html>
